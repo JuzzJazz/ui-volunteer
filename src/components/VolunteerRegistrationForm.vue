@@ -13,6 +13,54 @@
             Tidak
           </button>
         </div>
+        <div class="login-link-section">
+          <button type="button" class="login-link-btn" @click="showLoginDialog">
+            Sudah punya akun? <strong>Login di sini</strong>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Dialog -->
+  <div v-if="showLogin" class="dialog-overlay">
+    <div class="dialog-box">
+      <h2 class="dialog-title">Login</h2>
+      <div class="dialog-content">
+        <form @submit.prevent="handleLogin" class="login-form">
+          <div class="login-form-group">
+            <label for="loginEmail">Email</label>
+            <input 
+              type="email" 
+              id="loginEmail"
+              v-model="loginData.email" 
+              placeholder="Masukkan email Anda"
+              required
+              class="login-input"
+            />
+          </div>
+          
+          <div class="login-form-group">
+            <label for="loginPassword">Password</label>
+            <input 
+              type="password" 
+              id="loginPassword"
+              v-model="loginData.password" 
+              placeholder="Masukkan password Anda"
+              required
+              class="login-input"
+            />
+          </div>
+          
+          <div class="dialog-buttons">
+            <button type="button" class="dialog-btn cancel-btn" @click="cancelLogin">
+              Batal
+            </button>
+            <button type="submit" class="dialog-btn submit-login-btn">
+              Login
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -641,6 +689,13 @@ const router = useRouter()
 const showAgeDialog = ref(true)
 const showConsentDialog = ref(false)
 const showMainForm = ref(false)
+const showLogin = ref(false)
+
+// Login form data
+const loginData = reactive({
+  email: '',
+  password: ''
+})
 
 // Consent form data
 const consentData = reactive({
@@ -676,6 +731,32 @@ const submitConsent = () => {
     showMainForm.value = true
     // Optionally store consent data
     console.log('Consent data:', consentData)
+  }
+}
+
+// Show login dialog
+const showLoginDialog = () => {
+  showAgeDialog.value = false
+  showLogin.value = true
+}
+
+// Cancel login
+const cancelLogin = () => {
+  showLogin.value = false
+  showAgeDialog.value = true
+  // Reset login form
+  loginData.email = ''
+  loginData.password = ''
+}
+
+// Handle login
+const handleLogin = () => {
+  console.log('Login attempt:', loginData)
+  // Here you would normally validate credentials with backend
+  // For now, we'll just navigate to dashboard
+  if (loginData.email && loginData.password) {
+    alert(`Login berhasil! Email: ${loginData.email}`)
+    router.push('/dashboard')
   }
 }
 
@@ -897,6 +978,96 @@ const submitForm = () => {
 }
 
 .no-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
+}
+
+/* Login Link Section */
+.login-link-section {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #e5e7eb;
+  text-align: center;
+}
+
+.login-link-btn {
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 8px 16px;
+  border-radius: 8px;
+}
+
+.login-link-btn:hover {
+  color: #f97316;
+  background: rgba(249, 115, 22, 0.05);
+}
+
+.login-link-btn strong {
+  color: #f97316;
+  font-weight: 700;
+}
+
+/* Login Form Styles */
+.login-form {
+  width: 100%;
+}
+
+.login-form-group {
+  margin-bottom: 24px;
+}
+
+.login-form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.login-input {
+  width: 100%;
+  padding: 14px 18px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #1f2937;
+  transition: all 0.3s ease;
+  background: white;
+  box-sizing: border-box;
+}
+
+.login-input:focus {
+  outline: none;
+  border-color: #f97316;
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1);
+}
+
+.login-input::placeholder {
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+.cancel-btn {
+  background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%);
+  color: white;
+}
+
+.cancel-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(107, 114, 128, 0.4);
+}
+
+.submit-login-btn {
+  background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+  color: white;
+}
+
+.submit-login-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
 }
