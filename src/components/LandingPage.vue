@@ -85,6 +85,90 @@
       </div>
     </section>
 
+    <!-- Steps Section -->
+    <section class="steps-section">
+      <div class="steps-container">
+        <div class="steps-header">
+          <span class="steps-tag">Awali Perubahan Hari ini</span>
+          <h2 class="steps-title">langkah mudah bergabung menjadi relawan kincir</h2>
+        </div>
+
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="8" r="3" fill="#F97316"/>
+                <path d="M12 14c-4 0-7 2-7 4v2h14v-2c0-2-3-4-7-4z" fill="#F97316"/>
+                <rect x="16" y="16" width="4" height="4" rx="1" fill="#FB923C"/>
+              </svg>
+            </div>
+            <h3 class="step-title">Be a volunteer</h3>
+            <p class="step-description">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
+              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea 
+              commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
+              pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est 
+              laborum.
+            </p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="8" r="3" fill="#F97316"/>
+                <path d="M12 14c-4 0-7 2-7 4v2h14v-2c0-2-3-4-7-4z" fill="#F97316"/>
+                <rect x="16" y="16" width="4" height="4" rx="1" fill="#FB923C"/>
+              </svg>
+            </div>
+            <h3 class="step-title">Get and collect</h3>
+            <p class="step-description">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
+              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea 
+              commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
+              pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est 
+              laborum.
+            </p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="8" r="3" fill="#F97316"/>
+                <path d="M12 14c-4 0-7 2-7 4v2h14v-2c0-2-3-4-7-4z" fill="#F97316"/>
+                <rect x="16" y="16" width="4" height="4" rx="1" fill="#FB923C"/>
+              </svg>
+            </div>
+            <h3 class="step-title">Exchange your points</h3>
+            <p class="step-description">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
+              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea 
+              commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
+              pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est 
+              laborum.
+            </p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="8" r="3" fill="#F97316"/>
+                <path d="M12 14c-4 0-7 2-7 4v2h14v-2c0-2-3-4-7-4z" fill="#F97316"/>
+                <rect x="16" y="16" width="4" height="4" rx="1" fill="#FB923C"/>
+              </svg>
+            </div>
+            <h3 class="step-title">Gas</h3>
+            <p class="step-description">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
+              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea 
+              commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
+              pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est 
+              laborum.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Features Section -->
     <section class="features-section">
       <div class="features-container">
@@ -491,13 +575,119 @@ const scrollToVolunteer = () => {
 .section-text {
   color: #4b5563;
   font-size: 1.05rem;
-  line-height: 1.8;
+  line-height: 1.6;
+}
+
+/* Steps Section */
+.steps-section {
+  padding: 6rem 2rem;
+  background: white;
+}
+
+.steps-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.steps-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.steps-tag {
+  color: #f97316;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.steps-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #1f2937;
+  line-height: 1.2;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.step-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.step-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #f97316 0%, #fb923c 100%);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.step-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+  border-color: #f97316;
+}
+
+.step-card:hover::before {
+  transform: scaleX(1);
+}
+
+.step-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.step-card:hover .step-icon {
+  transform: scale(1.1) rotate(5deg);
+  background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
+}
+
+.step-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.step-description {
+  color: #6b7280;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  text-align: left;
 }
 
 /* Features Section */
 .features-section {
   padding: 5rem 2rem;
-  background: white;
+  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
 }
 
 .features-container {
