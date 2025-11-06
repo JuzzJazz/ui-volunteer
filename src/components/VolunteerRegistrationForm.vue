@@ -1,7 +1,12 @@
 <template>
   <div class="form-container">
     <div class="form-wrapper">
-      <h1 class="form-title">Ceritakan Kepada Kami Mengenai Diri Anda!</h1>
+      <div class="header-section">
+        <h1 class="form-title">Ceritakan Kepada Kami Mengenai Diri Anda!</h1>
+        <button type="button" class="dashboard-btn" @click="goToDashboard">
+          📊 Ke Dashboard
+        </button>
+      </div>
       
       <!-- Stepper -->
       <div class="stepper">
@@ -554,7 +559,9 @@
 
 <script setup>
 import { reactive, ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const currentStep = ref(1)
 const steps = [
   'Informasi Personal',
@@ -646,8 +653,9 @@ const goToStep = (step) => {
   }
 }
 
-import { useRouter } from 'vue-router'
-const router = useRouter()
+const goToDashboard = () => {
+  router.push('/dashboard')
+}
 
 const submitForm = () => {
   console.log('Form submitted:', formData)
@@ -707,11 +715,21 @@ const submitForm = () => {
   pointer-events: none;
 }
 
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
 .form-title {
   font-size: 36px;
   font-weight: 900;
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 0;
+  flex: 1;
   background: linear-gradient(135deg, #f97316 0%, #fb923c 50%, #ea580c 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -721,6 +739,26 @@ const submitForm = () => {
   letter-spacing: -1px;
   line-height: 1.2;
   text-shadow: 0 0 30px rgba(249, 115, 22, 0.1);
+}
+
+.dashboard-btn {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
+  white-space: nowrap;
+}
+
+.dashboard-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
+  background: linear-gradient(135deg, #ea580c 0%, #f97316 100%);
 }
 
 .form-title::after {
