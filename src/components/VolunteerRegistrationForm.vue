@@ -646,14 +646,16 @@ const goToStep = (step) => {
   }
 }
 
-const emit = defineEmits(['formSubmitted'])
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
 const submitForm = () => {
   console.log('Form submitted:', formData)
-  console.log('Emitting formSubmitted event...')
-  // Emit event to parent component
-  emit('formSubmitted', formData)
-  console.log('Event emitted successfully!')
+  console.log('Redirecting to dashboard...')
+  
+  // Navigate to dashboard after form submission
+  router.push('/dashboard')
+  console.log('Navigated to dashboard successfully!')
 }
 </script>
 

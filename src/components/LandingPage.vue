@@ -28,7 +28,7 @@
               <path d="M21 21l-4.35-4.35"/>
             </svg>
           </button>
-          <button class="user-btn" @click="$emit('joinVolunteer')">
+          <button class="user-btn" @click="goToRegister">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
               <circle cx="12" cy="7" r="4"/>
@@ -57,7 +57,7 @@
           <h1 class="hero-title">Relawan KinCir</h1>
           <p class="hero-description">deskripsi</p>
           <div class="hero-buttons">
-            <button class="btn-primary" @click="$emit('joinVolunteer')">Join Us Here</button>
+            <button class="btn-primary" @click="goToRegister">Join Us Here</button>
             <button class="btn-secondary" @click="scrollToVolunteer">Redisisi</button>
           </div>
         </div>
@@ -640,11 +640,11 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const activeAccordion = ref(1) // Default 'Benefit' is open
 const activeFaq = ref(null) // FAQ section - none open by default
-
-const emit = defineEmits(['joinVolunteer', 'goToDashboard'])
 
 const toggleAccordion = (index) => {
   activeAccordion.value = activeAccordion.value === index ? null : index
@@ -658,8 +658,12 @@ const scrollToVolunteer = () => {
   document.getElementById('volunteer')?.scrollIntoView({ behavior: 'smooth' })
 }
 
+const goToRegister = () => {
+  router.push('/register')
+}
+
 const goToDashboard = () => {
-  emit('goToDashboard')
+  router.push('/dashboard')
 }
 </script>
 

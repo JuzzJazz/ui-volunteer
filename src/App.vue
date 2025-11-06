@@ -1,40 +1,10 @@
 <script setup>
-import { ref } from 'vue'
-import LandingPage from './components/LandingPage.vue'
-import VolunteerRegistrationForm from './components/VolunteerRegistrationForm.vue'
-import VolunteerDashboard from './components/VolunteerDashboard.vue'
-
-const currentView = ref('landing') // 'landing', 'register', 'dashboard'
-
-const showRegistrationForm = () => {
-  currentView.value = 'register'
-}
-
-const goToDashboard = () => {
-  currentView.value = 'dashboard'
-}
-
-const handleFormSubmit = (formData) => {
-  console.log('🎉 handleFormSubmit called!')
-  console.log('Form data received:', formData)
-  console.log('Switching to dashboard...')
-  currentView.value = 'dashboard'
-  console.log('currentView is now:', currentView.value)
-}
+// No longer need to manually manage views - router handles it
 </script>
 
 <template>
   <div id="app">
-    <LandingPage 
-      v-if="currentView === 'landing'" 
-      @joinVolunteer="showRegistrationForm"
-      @goToDashboard="goToDashboard"
-    />
-    <VolunteerRegistrationForm 
-      v-else-if="currentView === 'register'" 
-      @formSubmitted="handleFormSubmit" 
-    />
-    <VolunteerDashboard v-else-if="currentView === 'dashboard'" />
+    <router-view />
   </div>
 </template>
 
