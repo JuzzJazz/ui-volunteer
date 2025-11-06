@@ -169,6 +169,54 @@
       </div>
     </section>
 
+    <!-- Program Section -->
+    <section class="program-section">
+      <div class="program-container">
+        <div class="program-header">
+          <span class="program-tag">ini program yang bisa kalian ikuti</span>
+          <h2 class="program-title">KinCir Volunteer Program</h2>
+        </div>
+
+        <div class="program-grid">
+          <div class="program-card">
+            <div class="program-image">
+              <img src="/volunteer-field.svg" alt="Volunteer KinOir Field" class="program-img">
+              <div class="program-overlay">
+                <h3 class="program-card-title">Volunteer: KinOir Field</h3>
+                <p class="program-card-desc">
+                  Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus ...
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="program-card">
+            <div class="program-image">
+              <img src="/volunteer-event.svg" alt="Volunteer Event" class="program-img">
+              <div class="program-overlay">
+                <h3 class="program-card-title">Volunteer: Event</h3>
+                <p class="program-card-desc">
+                  Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus ...
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="program-card">
+            <div class="program-image">
+              <img src="/volunteer-skills.svg" alt="Volunteer Skills" class="program-img">
+              <div class="program-overlay">
+                <h3 class="program-card-title">Volunteer: Skills Based</h3>
+                <p class="program-card-desc">
+                  Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus ...
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Features Section -->
     <section class="features-section">
       <div class="features-container">
@@ -682,6 +730,105 @@ const scrollToVolunteer = () => {
   font-size: 0.95rem;
   line-height: 1.7;
   text-align: left;
+}
+
+/* Program Section */
+.program-section {
+  padding: 6rem 2rem;
+  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+}
+
+.program-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.program-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.program-tag {
+  color: #f97316;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-transform: lowercase;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.program-title {
+  font-size: 2.75rem;
+  font-weight: 800;
+  color: #1f2937;
+  line-height: 1.2;
+}
+
+.program-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2.5rem;
+  margin-top: 3rem;
+}
+
+.program-card {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s ease;
+  background: white;
+}
+
+.program-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 16px 32px rgba(249, 115, 22, 0.2);
+}
+
+.program-image {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+}
+
+.program-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.program-card:hover .program-img {
+  transform: scale(1.1);
+}
+
+.program-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.5) 70%, transparent 100%);
+  padding: 2rem 1.75rem;
+  color: white;
+}
+
+.program-card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: white;
+}
+
+.program-card-desc {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #f3f4f6;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* Features Section */
