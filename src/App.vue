@@ -10,6 +10,10 @@ const showRegistrationForm = () => {
   currentView.value = 'register'
 }
 
+const goToDashboard = () => {
+  currentView.value = 'dashboard'
+}
+
 const handleFormSubmit = (formData) => {
   console.log('🎉 handleFormSubmit called!')
   console.log('Form data received:', formData)
@@ -23,7 +27,8 @@ const handleFormSubmit = (formData) => {
   <div id="app">
     <LandingPage 
       v-if="currentView === 'landing'" 
-      @joinVolunteer="showRegistrationForm" 
+      @joinVolunteer="showRegistrationForm"
+      @goToDashboard="goToDashboard"
     />
     <VolunteerRegistrationForm 
       v-else-if="currentView === 'register'" 

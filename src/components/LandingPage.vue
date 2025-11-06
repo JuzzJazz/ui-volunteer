@@ -4,8 +4,8 @@
     <nav class="navbar">
       <div class="nav-container">
         <div class="logo">
-          <img src="/logo.svg" alt="Wahana Visi Indonesia" class="logo-img">
-          <span class="logo-text">Wahana Visi<br><span class="indonesia">INDONESIA</span></span>
+          <img src="/logo.svg" alt="Wahaha Misii Indonesia" class="logo-img">
+          <span class="logo-text">Wahaha Misii<br><span class="indonesia">INDONESIA</span></span>
         </div>
         
         <div class="nav-links">
@@ -28,11 +28,14 @@
               <path d="M21 21l-4.35-4.35"/>
             </svg>
           </button>
-          <button class="user-btn">
+          <button class="user-btn" @click="$emit('joinVolunteer')">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
               <circle cx="12" cy="7" r="4"/>
             </svg>
+          </button>
+          <button class="dashboard-btn" @click="goToDashboard">
+            Dashboard
           </button>
           <button class="cart-btn">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -60,7 +63,7 @@
         </div>
       </div>
       <div class="hero-image">
-        <img src="/hero-volunteer.svg" alt="Wahana Visi Indonesia Volunteers" class="hero-img">
+        <img src="/hero-volunteer.svg" alt="Wahaha Misii Indonesia Volunteers" class="hero-img">
       </div>
     </section>
 
@@ -403,7 +406,7 @@
               </svg>
             </button>
             <div class="faq-answer">
-              <p>Setiap aktivitas volunteer akan mendapatkan points. Points dapat dikumpulkan dan ditukarkan dengan merchandise eksklusif Wahana Visi Indonesia atau digunakan untuk mengikuti program pelatihan premium.</p>
+              <p>Setiap aktivitas volunteer akan mendapatkan points. Points dapat dikumpulkan dan ditukarkan dengan merchandise eksklusif Wahaha Misii Indonesia atau digunakan untuk mengikuti program pelatihan premium.</p>
             </div>
           </div>
         </div>
@@ -577,8 +580,8 @@
         <div class="footer-content">
           <div class="footer-section">
             <div class="footer-logo">
-              <img src="/logo.svg" alt="Wahana Visi Indonesia" class="footer-logo-img">
-              <span class="footer-logo-text">Wahana Visi<br><span class="indonesia">INDONESIA</span></span>
+              <img src="/logo.svg" alt="Wahaha Misii Indonesia" class="footer-logo-img">
+              <span class="footer-logo-text">Wahaha Misii<br><span class="indonesia">INDONESIA</span></span>
             </div>
             <p class="footer-desc">
               Bersama membangun masa depan cerah untuk anak-anak Indonesia
@@ -628,7 +631,7 @@
         </div>
         
         <div class="footer-bottom">
-          <p>&copy; 2025 Wahana Visi Indonesia. All rights reserved.</p>
+          <p>&copy; 2025 Wahaha Misii Indonesia. All rights reserved.</p>
         </div>
       </div>
     </footer>
@@ -641,6 +644,8 @@ import { ref } from 'vue'
 const activeAccordion = ref(1) // Default 'Benefit' is open
 const activeFaq = ref(null) // FAQ section - none open by default
 
+const emit = defineEmits(['joinVolunteer', 'goToDashboard'])
+
 const toggleAccordion = (index) => {
   activeAccordion.value = activeAccordion.value === index ? null : index
 }
@@ -651,6 +656,10 @@ const toggleFaq = (index) => {
 
 const scrollToVolunteer = () => {
   document.getElementById('volunteer')?.scrollIntoView({ behavior: 'smooth' })
+}
+
+const goToDashboard = () => {
+  emit('goToDashboard')
 }
 </script>
 
@@ -747,6 +756,25 @@ const scrollToVolunteer = () => {
 
 .lang-btn:hover, .search-btn:hover, .user-btn:hover {
   color: #f97316;
+}
+
+.dashboard-btn {
+  background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3);
+}
+
+.dashboard-btn:hover {
+  background: linear-gradient(135deg, #ea580c 0%, #f97316 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
 }
 
 .divider {
