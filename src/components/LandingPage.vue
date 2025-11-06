@@ -326,6 +326,90 @@
       </div>
     </section>
 
+    <!-- FAQ Section -->
+    <section class="faq-section">
+      <div class="faq-container">
+        <div class="faq-header">
+          <span class="faq-tag">faq</span>
+          <h2 class="faq-title">Pertanyaan yang sering ditanyakan</h2>
+        </div>
+
+        <div class="faq-list">
+          <div class="faq-item" :class="{ active: activeFaq === 0 }">
+            <button class="faq-question" @click="toggleFaq(0)">
+              <span>Bagaimana cara mendaftar menjadi volunteer?</span>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            <div class="faq-answer">
+              <p>Anda dapat mendaftar dengan mengklik tombol "Join Us Here" di halaman utama dan mengisi formulir pendaftaran yang tersedia. Pastikan semua data yang Anda masukkan sudah benar dan lengkap.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" :class="{ active: activeFaq === 1 }">
+            <button class="faq-question" @click="toggleFaq(1)">
+              <span>Apa saja persyaratan untuk menjadi volunteer?</span>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            <div class="faq-answer">
+              <p>Persyaratan dasar meliputi: berusia minimal 17 tahun, memiliki komitmen untuk berkontribusi, memiliki kemampuan komunikasi yang baik, dan bersedia mengikuti pelatihan yang diberikan.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" :class="{ active: activeFaq === 2 }">
+            <button class="faq-question" @click="toggleFaq(2)">
+              <span>Berapa lama komitmen waktu yang diperlukan?</span>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            <div class="faq-answer">
+              <p>Komitmen waktu bervariasi tergantung program yang Anda ikuti. Minimal komitmen adalah 4 jam per minggu untuk program regular, atau sesuai kebutuhan untuk program khusus dan event tertentu.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" :class="{ active: activeFaq === 3 }">
+            <button class="faq-question" @click="toggleFaq(3)">
+              <span>Apakah ada biaya untuk menjadi volunteer?</span>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            <div class="faq-answer">
+              <p>Tidak ada biaya pendaftaran untuk menjadi volunteer KinCir. Semua program volunteer kami gratis dan terbuka untuk siapa saja yang memiliki dedikasi untuk membantu sesama.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" :class="{ active: activeFaq === 4 }">
+            <button class="faq-question" @click="toggleFaq(4)">
+              <span>Benefit apa yang didapatkan sebagai volunteer?</span>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            <div class="faq-answer">
+              <p>Sebagai volunteer, Anda akan mendapatkan: sertifikat volunteer, pelatihan gratis, pengalaman berharga, kesempatan networking, points yang dapat ditukar dengan merchandise, dan kepuasan batin dari membantu sesama.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" :class="{ active: activeFaq === 5 }">
+            <button class="faq-question" @click="toggleFaq(5)">
+              <span>Bagaimana sistem points bekerja?</span>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            <div class="faq-answer">
+              <p>Setiap aktivitas volunteer akan mendapatkan points. Points dapat dikumpulkan dan ditukarkan dengan merchandise eksklusif Wahana Visi Indonesia atau digunakan untuk mengikuti program pelatihan premium.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Features Section -->
     <section class="features-section">
       <div class="features-container">
@@ -435,9 +519,14 @@
 import { ref } from 'vue'
 
 const activeAccordion = ref(1) // Default 'Benefit' is open
+const activeFaq = ref(null) // FAQ section - none open by default
 
 const toggleAccordion = (index) => {
   activeAccordion.value = activeAccordion.value === index ? null : index
+}
+
+const toggleFaq = (index) => {
+  activeFaq.value = activeFaq.value === index ? null : index
 }
 
 const scrollToVolunteer = () => {
@@ -1192,6 +1281,118 @@ const scrollToVolunteer = () => {
 
 .qna-image:hover .qna-img {
   transform: scale(1.05);
+}
+
+/* FAQ Section */
+.faq-section {
+  padding: 6rem 2rem;
+  background: white;
+}
+
+.faq-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.faq-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.faq-tag {
+  color: #f97316;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-transform: lowercase;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.faq-title {
+  font-size: 2.75rem;
+  font-weight: 800;
+  color: #1f2937;
+  line-height: 1.2;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.faq-item {
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+  border-color: #f97316;
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.1);
+}
+
+.faq-item.active {
+  border-color: #f97316;
+  box-shadow: 0 6px 16px rgba(249, 115, 22, 0.15);
+}
+
+.faq-question {
+  width: 100%;
+  padding: 1.5rem 2rem;
+  background: white;
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1f2937;
+  transition: all 0.3s ease;
+  text-align: left;
+  gap: 1rem;
+}
+
+.faq-question:hover {
+  color: #f97316;
+}
+
+.faq-item.active .faq-question {
+  color: #f97316;
+  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+}
+
+.faq-icon {
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+  color: #9ca3af;
+}
+
+.faq-item.active .faq-icon {
+  transform: rotate(180deg);
+  color: #f97316;
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+  padding: 0 2rem;
+}
+
+.faq-item.active .faq-answer {
+  max-height: 500px;
+  padding: 0 2rem 1.5rem 2rem;
+}
+
+.faq-answer p {
+  color: #6b7280;
+  line-height: 1.8;
+  font-size: 1rem;
 }
 
 /* Features Section */
