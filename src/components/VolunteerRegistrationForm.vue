@@ -288,10 +288,10 @@
               <div class="form-group"></div>
             </div>
             
-            <!-- Sponsor WVI -->
+            <!-- Sponsor WHI -->
             <div class="form-row">
               <div class="form-group">
-                <label>Apakah anda seorang sponsor anak WVI ?</label>
+                <label>Apakah anda seorang sponsor anak WHI ?</label>
                 <div class="radio-group">
                   <label class="radio-label">
                     <input type="radio" v-model="formData.isSponsor" value="yes" />
@@ -509,12 +509,12 @@
             
             <label class="checkbox-label">
               <input type="checkbox" v-model="formData.agreements.childProtection" required />
-              <span class="checkbox-text">Saya telah membaca, mengerti dan menyetujui <span class="link-text">Kebijakan Perlindungan Anak dan Penerima Manfaat Dewasa</span> dinyatakan oleh Wahana Visi Indonesia</span>
+              <span class="checkbox-text">Saya telah membaca, mengerti dan menyetujui <span class="link-text">Kebijakan Perlindungan Anak dan Penerima Manfaat Dewasa</span> dinyatakan oleh Wahaha MisiihIndonesia</span>
             </label>
             
             <label class="checkbox-label">
               <input type="checkbox" v-model="formData.agreements.declaration" required />
-              <span class="checkbox-text">Karena itu saya telah membaca bahwa saya mengerti dan menyatakan bahwa saya tidak pernah memiliki catatan atau keterasan terhadap anak atal, keterasan terhadap anak seperti yang dinyatakan dalam <span class="link-text">Pernyataan Janji</span> dokumen oleh Wahana Visi Indonesia</span>
+              <span class="checkbox-text">Karena itu saya telah membaca bahwa saya mengerti dan menyatakan bahwa saya tidak pernah memiliki catatan atau keterasan terhadap anak atal, keterasan terhadap anak seperti yang dinyatakan dalam <span class="link-text">Pernyataan Janji</span> dokumen oleh Wahaha MisiihIndonesia</span>
             </label>
           </div>
         </div>

@@ -1,0 +1,35 @@
+<svg width="700" height="440" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="act2Gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#34d399;stop-opacity:0.9" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="700" height="440" fill="url(#act2Gradient)"/>
+  
+  <!-- Robot parts -->
+  <rect x="280" y="150" width="140" height="100" rx="10" fill="rgba(255, 255, 255, 0.3)"/>
+  <circle cx="320" cy="190" r="12" fill="rgba(255, 255, 255, 0.4)"/>
+  <circle cx="380" cy="190" r="12" fill="rgba(255, 255, 255, 0.4)"/>
+  <rect x="330" y="210" width="40" height="20" rx="5" fill="rgba(255, 255, 255, 0.4)"/>
+  
+  <!-- Antenna -->
+  <line x1="350" y1="150" x2="350" y2="120" stroke="rgba(255, 255, 255, 0.3)" stroke-width="4"/>
+  <circle cx="350" cy="115" r="8" fill="rgba(255, 255, 255, 0.4)"/>
+  
+  <!-- Arms -->
+  <rect x="240" y="180" width="35" height="60" rx="8" fill="rgba(255, 255, 255, 0.3)"/>
+  <rect x="425" y="180" width="35" height="60" rx="8" fill="rgba(255, 255, 255, 0.3)"/>
+  
+  <!-- Grid pattern for planning -->
+  <g opacity="0.2">
+    <line x1="480" y1="170" x2="640" y2="170" stroke="white" stroke-width="2"/>
+    <line x1="480" y1="200" x2="640" y2="200" stroke="white" stroke-width="2"/>
+    <line x1="480" y1="230" x2="640" y2="230" stroke="white" stroke-width="2"/>
+  </g>
+  
+  <text x="50%" y="90%" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="white" text-anchor="middle">
+    Membuat Robot Bersama Anak
+  </text>
+</svg>

@@ -11,8 +11,8 @@
         <div class="nav-links">
           <a href="#" class="nav-link">Sponsor Anak</a>
           <a href="#" class="nav-link">Donasi</a>
-          <a href="#" class="nav-link">Bermitra dengan WVI</a>
-          <a href="#" class="nav-link">Tentang WVI</a>
+          <a href="#" class="nav-link">Bermitra dengan WHI</a>
+          <a href="#" class="nav-link">Tentang WHI</a>
           <a href="#" class="nav-link">Media & Publikasi</a>
           <a href="#" class="nav-link">Kontak kami</a>
           <a href="#" class="nav-link">Ayo Terlibat</a>
@@ -404,6 +404,126 @@
             </button>
             <div class="faq-answer">
               <p>Setiap aktivitas volunteer akan mendapatkan points. Points dapat dikumpulkan dan ditukarkan dengan merchandise eksklusif Wahana Visi Indonesia atau digunakan untuk mengikuti program pelatihan premium.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Activities Section -->
+    <section class="activities-section">
+      <div class="activities-container">
+        <div class="activities-header">
+          <span class="activities-tag">Aktivitas Relawan disini niii</span>
+          <h2 class="activities-title">Kegiatan</h2>
+        </div>
+
+        <div class="activities-grid">
+          <div class="activity-card">
+            <div class="activity-image">
+              <img src="/activity-1.svg" alt="Volunteer OnField" class="activity-img">
+            </div>
+            <div class="activity-content">
+              <span class="activity-badge">Volunteer OnField</span>
+              <h3 class="activity-name">Nama aktivitas</h3>
+              <div class="activity-meta">
+                <div class="activity-meta-item">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                  <span>8 Oktober 2025 - 31 Oktober 2025</span>
+                </div>
+                <div class="activity-meta-item">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                  </svg>
+                  <span>alamat untuk indonesia</span>
+                </div>
+                <div class="activity-meta-item">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                  </svg>
+                  <span>10 Poin</span>
+                </div>
+              </div>
+              <button class="activity-btn">Lihat Detail</button>
+            </div>
+          </div>
+
+          <div class="activity-card">
+            <div class="activity-image">
+              <img src="/activity-2.svg" alt="Aktivitas Volunteer" class="activity-img">
+            </div>
+            <div class="activity-content">
+              <span class="activity-badge">Aktivitas Volunteer</span>
+              <h3 class="activity-name">Membuat Robot Bersama Anak Depok</h3>
+              <div class="activity-meta">
+                <div class="activity-meta-item">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                  <span>4 September 2025 - 10 September 2025</span>
+                </div>
+                <div class="activity-meta-item">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                  </svg>
+                  <span>Alamat Sibuk</span>
+                </div>
+                <div class="activity-meta-item">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                  </svg>
+                  <span>10 Poin</span>
+                </div>
+              </div>
+              <button class="activity-btn">Lihat Detail</button>
+            </div>
+          </div>
+
+          <div class="activity-card">
+            <div class="activity-image">
+              <img src="/activity-3.svg" alt="Volunteer OnField" class="activity-img">
+            </div>
+            <div class="activity-content">
+              <span class="activity-badge">Volunteer OnField</span>
+              <h3 class="activity-name">ED Relawan Sudah Tiba</h3>
+              <div class="activity-meta">
+                <div class="activity-meta-item">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                  <span>27 Juli 2025 - 29 Juli 2025</span>
+                </div>
+                <div class="activity-meta-item">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                  </svg>
+                  <span>Jalan jalan dan jalan jalan jalan</span>
+                </div>
+                <div class="activity-meta-item">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                  </svg>
+                  <span>199 Poin</span>
+                </div>
+              </div>
+              <button class="activity-btn">Lihat Detail</button>
             </div>
           </div>
         </div>
@@ -1393,6 +1513,147 @@ const scrollToVolunteer = () => {
   color: #6b7280;
   line-height: 1.8;
   font-size: 1rem;
+}
+
+/* Activities Section */
+.activities-section {
+  padding: 6rem 2rem;
+  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+}
+
+.activities-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.activities-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.activities-tag {
+  color: #f97316;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.activities-title {
+  font-size: 2.75rem;
+  font-weight: 800;
+  color: #1f2937;
+  line-height: 1.2;
+}
+
+.activities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2.5rem;
+}
+
+.activity-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.activity-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 28px rgba(249, 115, 22, 0.2);
+}
+
+.activity-image {
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+  position: relative;
+}
+
+.activity-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.activity-card:hover .activity-img {
+  transform: scale(1.1);
+}
+
+.activity-content {
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+}
+
+.activity-badge {
+  display: inline-block;
+  padding: 0.4rem 0.9rem;
+  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+  color: #f97316;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 6px;
+  align-self: flex-start;
+}
+
+.activity-name {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.activity-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 0.5rem 0;
+}
+
+.activity-meta-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  color: #6b7280;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.activity-meta-item svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: #f97316;
+}
+
+.activity-btn {
+  width: 100%;
+  padding: 1rem;
+  background: #f97316;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: auto;
+}
+
+.activity-btn:hover {
+  background: #ea580c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
 }
 
 /* Features Section */
