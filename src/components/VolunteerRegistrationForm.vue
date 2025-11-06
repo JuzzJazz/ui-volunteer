@@ -1,5 +1,79 @@
 <template>
-  <div class="form-container">
+  <!-- Age Confirmation Dialog -->
+  <div v-if="showAgeDialog" class="dialog-overlay">
+    <div class="dialog-box">
+      <h2 class="dialog-title">Ceritakan Kepada Kami Mengenai Diri Anda!</h2>
+      <div class="dialog-content">
+        <p class="dialog-question">Apakah Anda berusia 18 tahun ke atas?</p>
+        <div class="dialog-buttons">
+          <button type="button" class="dialog-btn yes-btn" @click="handleAgeConfirmation(true)">
+            Ya
+          </button>
+          <button type="button" class="dialog-btn no-btn" @click="handleAgeConfirmation(false)">
+            Tidak
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Under 18 Consent Dialog -->
+  <div v-if="showConsentDialog" class="dialog-overlay">
+    <div class="dialog-box consent-dialog">
+      <h2 class="dialog-title">Persetujuan Wali/Orang Tua</h2>
+      <div class="dialog-content">
+        <div class="consent-form">
+          <div class="consent-row">
+            <label class="consent-label">Saya bernama</label>
+            <input 
+              type="text" 
+              v-model="consentData.childName" 
+              class="consent-input"
+              placeholder="Nama lengkap"
+            />
+          </div>
+          
+          <div class="consent-row">
+            <label class="consent-label">selaku wali/orang tua dari</label>
+            <input 
+              type="text" 
+              v-model="consentData.guardianName" 
+              class="consent-input"
+              placeholder="Nama wali/orang tua"
+            />
+          </div>
+          
+          <div class="consent-row">
+            <label class="consent-label">dengan sadar memperbolehkan</label>
+            <input 
+              type="text" 
+              v-model="consentData.confirmation" 
+              class="consent-input"
+              placeholder="Konfirmasi"
+            />
+          </div>
+          
+          <p class="consent-text">
+            mengikuti, berkontribusi dan dengan sadar mensepakati anak saya dalam konteks kegiatan kerelawanan 
+            Wahana Visi Indonesia dan mengikuti segala ketentuan yang berlaku.
+          </p>
+        </div>
+        
+        <div class="dialog-buttons">
+          <button 
+            type="button" 
+            class="dialog-btn submit-consent-btn" 
+            @click="submitConsent"
+            :disabled="!isConsentFormValid"
+          >
+            Lanjutkan
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-container" v-if="showMainForm">
     <div class="form-wrapper">
       <div class="header-section">
         <h1 class="form-title">Ceritakan Kepada Kami Mengenai Diri Anda!</h1>
@@ -562,6 +636,49 @@ import { reactive, ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+
+// Dialog states
+const showAgeDialog = ref(true)
+const showConsentDialog = ref(false)
+const showMainForm = ref(false)
+
+// Consent form data
+const consentData = reactive({
+  childName: '',
+  guardianName: '',
+  confirmation: ''
+})
+
+// Check if consent form is valid
+const isConsentFormValid = computed(() => {
+  return consentData.childName.trim() !== '' && 
+         consentData.guardianName.trim() !== '' && 
+         consentData.confirmation.trim() !== ''
+})
+
+// Handle age confirmation
+const handleAgeConfirmation = (isAbove18) => {
+  if (isAbove18) {
+    // User is 18+, close dialog and show form
+    showAgeDialog.value = false
+    showMainForm.value = true
+  } else {
+    // User is under 18, show consent dialog
+    showAgeDialog.value = false
+    showConsentDialog.value = true
+  }
+}
+
+// Submit consent form
+const submitConsent = () => {
+  if (isConsentFormValid.value) {
+    showConsentDialog.value = false
+    showMainForm.value = true
+    // Optionally store consent data
+    console.log('Consent data:', consentData)
+  }
+}
+
 const currentStep = ref(1)
 const steps = [
   'Informasi Personal',
@@ -668,6 +785,206 @@ const submitForm = () => {
 </script>
 
 <style scoped>
+/* Dialog Styles */
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.dialog-box {
+  background: white;
+  border-radius: 24px;
+  padding: 48px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  border: 1px solid rgba(249, 115, 22, 0.1);
+}
+
+.dialog-box.consent-dialog {
+  max-width: 700px;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.dialog-title {
+  font-size: 28px;
+  font-weight: 900;
+  text-align: center;
+  margin-bottom: 32px;
+  background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.3;
+}
+
+.dialog-content {
+  margin-top: 24px;
+}
+
+.dialog-question {
+  font-size: 18px;
+  font-weight: 600;
+  color: #374151;
+  text-align: center;
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.dialog-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.dialog-btn {
+  padding: 14px 40px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 120px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.yes-btn {
+  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+  color: white;
+}
+
+.yes-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+}
+
+.no-btn {
+  background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+  color: white;
+}
+
+.no-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
+}
+
+/* Consent Form Styles */
+.consent-form {
+  background: linear-gradient(135deg, #fefbf8 0%, #ffffff 100%);
+  padding: 32px;
+  border-radius: 16px;
+  border: 2px solid #f3f4f6;
+  margin-bottom: 24px;
+}
+
+.consent-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.consent-label {
+  font-size: 15px;
+  font-weight: 500;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.consent-input {
+  flex: 1;
+  min-width: 200px;
+  padding: 12px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #1f2937;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.consent-input:focus {
+  outline: none;
+  border-color: #f97316;
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1);
+}
+
+.consent-input::placeholder {
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+.consent-text {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #4b5563;
+  margin-top: 24px;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  border-left: 4px solid #f97316;
+}
+
+.submit-consent-btn {
+  background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+  color: white;
+  width: 100%;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
+}
+
+.submit-consent-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
+}
+
+.submit-consent-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
 .form-container {
   max-width: 1100px;
   margin: 40px auto;
