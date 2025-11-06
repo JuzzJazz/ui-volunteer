@@ -217,6 +217,58 @@
       </div>
     </section>
 
+    <!-- Team Section -->
+    <section class="team-section">
+      <div class="team-container">
+        <div class="team-header">
+          <span class="team-tag">Our Team</span>
+          <h2 class="team-title">Meet Our Amazing Teman KinCir</h2>
+        </div>
+
+        <div class="team-grid">
+          <div class="team-card">
+            <div class="team-image">
+              <img src="/team-member-1.svg" alt="Haga, Pengusaha kayu" class="team-img">
+              <div class="team-overlay">
+                <h3 class="team-name">Haga, Pengusaha kayu</h3>
+                <p class="team-role">nice ,</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="team-card">
+            <div class="team-image">
+              <img src="/team-member-2.svg" alt="Sazkia Sungkir" class="team-img">
+              <div class="team-overlay">
+                <h3 class="team-name">Sazkia Sungkir</h3>
+                <p class="team-role">suka jadi telesales</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="team-card">
+            <div class="team-image">
+              <img src="/team-member-3.svg" alt="Team Member" class="team-img">
+              <div class="team-overlay">
+                <h3 class="team-name">Team Member</h3>
+                <p class="team-role">Volunteer Enthusiast</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="team-card">
+            <div class="team-image">
+              <img src="/team-member-4.svg" alt="Team Member" class="team-img">
+              <div class="team-overlay">
+                <h3 class="team-name">Team Member</h3>
+                <p class="team-role">Community Leader</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Features Section -->
     <section class="features-section">
       <div class="features-container">
@@ -829,6 +881,108 @@ const scrollToVolunteer = () => {
   line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* Team Section */
+.team-section {
+  padding: 6rem 2rem;
+  background: white;
+}
+
+.team-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.team-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.team-tag {
+  color: #f97316;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.team-title {
+  font-size: 2.75rem;
+  font-weight: 800;
+  color: #1f2937;
+  line-height: 1.2;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.team-card {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: white;
+  position: relative;
+}
+
+.team-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(249, 115, 22, 0.2);
+}
+
+.team-image {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  overflow: hidden;
+}
+
+.team-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.team-card:hover .team-img {
+  transform: scale(1.15);
+}
+
+.team-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.6) 60%, transparent 100%);
+  padding: 1.75rem 1.5rem;
+  color: white;
+  transform: translateY(0);
+  transition: transform 0.4s ease;
+}
+
+.team-card:hover .team-overlay {
+  transform: translateY(-5px);
+}
+
+.team-name {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.team-role {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #fbbf24;
+  font-weight: 500;
 }
 
 /* Features Section */

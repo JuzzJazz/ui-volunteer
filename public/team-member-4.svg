@@ -1,0 +1,25 @@
+<svg width="600" height="760" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="team4Gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#34d399;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#6ee7b7;stop-opacity:0.8" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="600" height="760" fill="url(#team4Gradient)"/>
+  
+  <!-- Person silhouette -->
+  <circle cx="300" cy="280" r="70" fill="rgba(255, 255, 255, 0.3)"/>
+  <ellipse cx="300" cy="450" rx="120" ry="140" fill="rgba(255, 255, 255, 0.3)"/>
+  
+  <!-- Star icon -->
+  <polygon points="300,320 310,345 338,345 315,362 325,390 300,373 275,390 285,362 262,345 290,345" fill="rgba(255, 255, 255, 0.4)"/>
+  
+  <text x="50%" y="85%" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="white" text-anchor="middle">
+    Team Member
+  </text>
+  <text x="50%" y="90%" font-family="Arial, sans-serif" font-size="24" fill="rgba(255,255,255,0.9)" text-anchor="middle">
+    Community Leader
+  </text>
+</svg>
