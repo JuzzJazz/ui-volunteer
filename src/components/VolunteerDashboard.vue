@@ -120,7 +120,7 @@
         
         <!-- Summary Card -->
         <div v-else-if="activeSection === 'ringkasan'" class="summary-card">
-          <h2 class="summary-title">Cris Ringkasan Relawan</h2>
+          <h2 class="summary-title">Hana Ringkasan Relawan</h2>
           <div class="summary-stats">
             <div class="stat-item">
               <div class="stat-icon days">⏱️</div>

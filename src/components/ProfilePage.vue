@@ -96,17 +96,17 @@
 import { reactive } from 'vue'
 
 const profileData = reactive({
-  name: 'Cris Parlindungan',
-  birthDate: '12 Desember 1994',
+  name: 'Hana Priscilla',
+  birthDate: '25 Januari 2025',
   address: 'Kp. Pulo rt/rw: 006/008 kel/kec: rangkapan jaya / pancoranmas no: 63, KOTA DEPOK, PANCORAN MAS, JAWA BARAT, ID, 16435',
   city: 'KODYA DEPOK',
-  socialMedia: 'crisparlin',
-  email: 'cristparlindungan@gmail.com',
+  socialMedia: 'hanaaa',
+  email: 'haha@gmail.com',
   phone: '081298484823',
   skills: 'Fotografi, Teknologi Informasi (IT)',
   cvFileName: '251106690C4B262A827_upload_cv.pdf',
   cvUrl: '#',
-  portfolioUrl: 'https://crisparlin.github.io/portofolio/',
+  portfolioUrl: 'https://hahha.github.io/portofolio/',
   photoUrl: '' // Empty for "Not Found" state
 })
 
