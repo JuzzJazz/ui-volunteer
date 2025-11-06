@@ -1,19 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import LandingPage from '../components/LandingPage.vue'
 import VolunteerRegistrationForm from '../components/VolunteerRegistrationForm.vue'
 import VolunteerDashboard from '../components/VolunteerDashboard.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: LandingPage,
-    meta: {
-      title: 'Wahana Visi Indonesia - Volunteer KinCir'
-    }
-  },
-  {
-    path: '/register',
     name: 'Register',
     component: VolunteerRegistrationForm,
     meta: {
