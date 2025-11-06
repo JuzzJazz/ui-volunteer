@@ -102,7 +102,7 @@ const profileData = reactive({
   city: 'KODYA DEPOK',
   socialMedia: 'hanaaa',
   email: 'haha@gmail.com',
-  phone: '081298484823',
+  phone: '081234567890',
   skills: 'Fotografi, Teknologi Informasi (IT)',
   cvFileName: '251106690C4B262A827_upload_cv.pdf',
   cvUrl: '#',
