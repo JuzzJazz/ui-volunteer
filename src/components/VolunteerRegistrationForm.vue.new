@@ -1,0 +1,7 @@
+<template>
+  <div class="page-background">
+    <div class="form-container">
+      <div class="form-wrapper">
+        <h1 class="form-title">Ceritakan Kepada Kami Mengenai Diri Anda!</h1>
+        
+        <form @submit.prevent="submitForm" class="volunteer-form">
