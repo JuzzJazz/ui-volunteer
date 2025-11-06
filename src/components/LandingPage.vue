@@ -269,6 +269,63 @@
       </div>
     </section>
 
+    <!-- Q&A Section -->
+    <section class="qna-section">
+      <div class="qna-container">
+        <div class="qna-header">
+          <span class="qna-tag">Campaign</span>
+          <h2 class="qna-title">ini section Q&A</h2>
+          <p class="qna-description">
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+          </p>
+        </div>
+
+        <div class="qna-content">
+          <div class="qna-accordion">
+            <div class="accordion-item" :class="{ active: activeAccordion === 0 }">
+              <button class="accordion-header" @click="toggleAccordion(0)">
+                <span>Cara mendaftar</span>
+                <svg class="accordion-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </button>
+              <div class="accordion-content">
+                <p>Untuk mendaftar sebagai relawan KinCir, silakan klik tombol "Join Us Here" dan isi formulir pendaftaran yang tersedia. Pastikan semua data yang diisi sudah benar dan lengkap.</p>
+              </div>
+            </div>
+
+            <div class="accordion-item" :class="{ active: activeAccordion === 1 }">
+              <button class="accordion-header" @click="toggleAccordion(1)">
+                <span>Benefit</span>
+                <svg class="accordion-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </button>
+              <div class="accordion-content">
+                <p>benefitnya itu seperti ini lalalalaalallala</p>
+              </div>
+            </div>
+
+            <div class="accordion-item" :class="{ active: activeAccordion === 2 }">
+              <button class="accordion-header" @click="toggleAccordion(2)">
+                <span>Syarat & Ketentuan</span>
+                <svg class="accordion-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </button>
+              <div class="accordion-content">
+                <p>Syarat dan ketentuan menjadi relawan akan dijelaskan disini. Pastikan Anda membaca dengan teliti sebelum mendaftar.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="qna-image">
+            <img src="/qna-volunteers.svg" alt="Volunteers with children" class="qna-img">
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Features Section -->
     <section class="features-section">
       <div class="features-container">
@@ -375,6 +432,14 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
+
+const activeAccordion = ref(1) // Default 'Benefit' is open
+
+const toggleAccordion = (index) => {
+  activeAccordion.value = activeAccordion.value === index ? null : index
+}
+
 const scrollToVolunteer = () => {
   document.getElementById('volunteer')?.scrollIntoView({ behavior: 'smooth' })
 }
@@ -985,6 +1050,150 @@ const scrollToVolunteer = () => {
   font-weight: 500;
 }
 
+/* Q&A Section */
+.qna-section {
+  padding: 6rem 2rem;
+  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+}
+
+.qna-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.qna-header {
+  text-align: center;
+  margin-bottom: 4rem;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.qna-tag {
+  color: #f97316;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.qna-title {
+  font-size: 2.75rem;
+  font-weight: 800;
+  color: #1f2937;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+}
+
+.qna-description {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #6b7280;
+  margin-bottom: 2rem;
+}
+
+.qna-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+  margin-top: 3rem;
+}
+
+.qna-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.accordion-item {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.accordion-item:hover {
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.15);
+}
+
+.accordion-header {
+  width: 100%;
+  padding: 1.5rem 1.75rem;
+  background: white;
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1f2937;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.accordion-header:hover {
+  color: #f97316;
+}
+
+.accordion-item.active .accordion-header {
+  color: #f97316;
+  background: #fff7ed;
+}
+
+.accordion-icon {
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+  color: #9ca3af;
+}
+
+.accordion-item.active .accordion-icon {
+  transform: rotate(180deg);
+  color: #f97316;
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+  padding: 0 1.75rem;
+}
+
+.accordion-item.active .accordion-content {
+  max-height: 500px;
+  padding: 0 1.75rem 1.5rem 1.75rem;
+}
+
+.accordion-content p {
+  color: #6b7280;
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+.qna-image {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  height: 100%;
+  min-height: 400px;
+}
+
+.qna-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.qna-image:hover .qna-img {
+  transform: scale(1.05);
+}
+
 /* Features Section */
 .features-section {
   padding: 5rem 2rem;
@@ -1152,6 +1361,15 @@ const scrollToVolunteer = () => {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
+
+  .qna-content {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .qna-image {
+    min-height: 350px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1169,6 +1387,22 @@ const scrollToVolunteer = () => {
   
   .section-title {
     font-size: 2rem;
+  }
+
+  .steps-title,
+  .program-title,
+  .team-title,
+  .qna-title {
+    font-size: 2rem;
+  }
+
+  .qna-description {
+    font-size: 0.95rem;
+  }
+
+  .program-grid,
+  .team-grid {
+    grid-template-columns: 1fr;
   }
 }
 </style>
