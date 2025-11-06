@@ -1,26 +1,46 @@
-# Volunteer Registration Form
+# Volunteer Registration System - Wahana Visi Indonesia
 
-Website form pendaftaran volunteer menggunakan Vue.js yang dibuat berdasarkan desain yang diberikan.
+Website pendaftaran volunteer lengkap dengan landing page, form registrasi, dan dashboard untuk Wahana Visi Indonesia.
 
-## Fitur
+## ✨ Fitur Utama
 
+### 🏠 Landing Page
+- Hero section dengan gambar menarik
+- Navigasi lengkap dengan multi-level menu
+- Section informasi volunteer KinCir
+- Feature cards untuk highlight program
+- Footer dengan social media links
+- Desain responsif dan modern
+
+### 📝 Form Registrasi
 - Form pendaftaran volunteer dengan validasi
-- Desain responsif
 - Input tanggal lahir dengan dropdown
 - Checkbox untuk berbagai kategori sponsor
 - Upload file untuk ID Card dan CV
 - Validasi form yang komprehensif
 
-## Teknologi Yang Digunakan
+### 📊 Dashboard Volunteer
+- Profil volunteer
+- Daftar events dan opportunities
+- Points & badges system
+- History aktivitas
+- Certificate management
 
-- Vue.js 3
-- Vite (Build Tool)
-- CSS3 dengan Grid dan Flexbox
-- JavaScript ES6+
+## 🚀 Teknologi Yang Digunakan
 
-## Instalasi
+- **Vue.js 3** - Framework JavaScript
+- **Vite** - Build Tool & Dev Server
+- **CSS3** - Styling dengan Grid & Flexbox
+- **JavaScript ES6+** - Modern JavaScript
+
+## 📦 Instalasi
 
 1. Clone repository ini
+   ```bash
+   git clone https://github.com/JuzzJazz/ui-volunteer.git
+   cd ui-volunteer
+   ```
+
 2. Install dependencies:
    ```bash
    npm install
@@ -33,17 +53,36 @@ Website form pendaftaran volunteer menggunakan Vue.js yang dibuat berdasarkan de
 
 4. Buka browser dan akses `http://localhost:5173/`
 
-## Struktur Project
+## 🏗️ Struktur Project
 
 ```
 src/
 ├── components/
-│   └── VolunteerRegistrationForm.vue  # Komponen utama form
-├── App.vue                            # Komponen root
+│   ├── LandingPage.vue               # Landing page utama
+│   ├── VolunteerRegistrationForm.vue # Form pendaftaran
+│   ├── VolunteerDashboard.vue        # Dashboard volunteer
+│   ├── ProfilePage.vue               # Halaman profil
+│   ├── EventsPage.vue                # Daftar events
+│   ├── OpportunitiesPage.vue         # Volunteer opportunities
+│   ├── PointsBadgePage.vue           # Points & badges
+│   ├── HistoryPage.vue               # Riwayat aktivitas
+│   ├── CertificatesPage.vue          # Sertifikat
+│   ├── MyCampaignPage.vue            # Campaign volunteer
+│   ├── WriteStoryPage.vue            # Tulis cerita
+│   └── ChangePasswordPage.vue        # Ganti password
+├── App.vue                           # Komponen root
 └── main.js                           # Entry point
 ```
 
-## Fitur Form
+## 🎨 Fitur Landing Page
+
+- **Navigation Bar**: Menu lengkap dengan language switcher dan icons
+- **Hero Section**: Banner besar dengan CTA buttons
+- **Volunteer Info**: Section "ToGether, To Other, To Be Better"
+- **Features**: Tiga highlight fitur utama program
+- **Footer**: Social media links dan quick navigation
+
+## 📝 Form Registrasi
 
 ### Input Fields:
 - Status (dropdown)

@@ -1,35 +1,35 @@
 <script setup>
 import { ref } from 'vue'
+import LandingPage from './components/LandingPage.vue'
 import VolunteerRegistrationForm from './components/VolunteerRegistrationForm.vue'
 import VolunteerDashboard from './components/VolunteerDashboard.vue'
 
-const showDashboard = ref(false)
+const currentView = ref('landing') // 'landing', 'register', 'dashboard'
+
+const showRegistrationForm = () => {
+  currentView.value = 'register'
+}
 
 const handleFormSubmit = (formData) => {
   console.log('🎉 handleFormSubmit called!')
   console.log('Form data received:', formData)
   console.log('Switching to dashboard...')
-  showDashboard.value = true
-  console.log('showDashboard is now:', showDashboard.value)
+  currentView.value = 'dashboard'
+  console.log('currentView is now:', currentView.value)
 }
 </script>
 
 <template>
   <div id="app">
-    <!-- Debug button (hapus setelah testing) -->
-    <button 
-      v-if="!showDashboard"
-      @click="showDashboard = true" 
-      style="position: fixed; top: 10px; right: 10px; z-index: 9999; padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;"
-    >
-      Skip to Dashboard (Test)
-    </button>
-    
+    <LandingPage 
+      v-if="currentView === 'landing'" 
+      @joinVolunteer="showRegistrationForm" 
+    />
     <VolunteerRegistrationForm 
-      v-if="!showDashboard" 
+      v-else-if="currentView === 'register'" 
       @formSubmitted="handleFormSubmit" 
     />
-    <VolunteerDashboard v-else />
+    <VolunteerDashboard v-else-if="currentView === 'dashboard'" />
   </div>
 </template>
 
