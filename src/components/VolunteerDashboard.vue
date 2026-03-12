@@ -86,6 +86,13 @@
               <span>Sertifikat</span>
             </div>
           </div>
+
+          <div class="nav-section admin-section">
+            <div class="nav-item" @click="activeSection = 'admin-pov'">
+              <span class="nav-icon">👑</span>
+              <span>Admin POV</span>
+            </div>
+          </div>
         </nav>
       </aside>
 
@@ -117,6 +124,9 @@
         
         <!-- Certificates Page -->
         <CertificatesPage v-else-if="activeSection === 'sertifikat'" />
+        
+        <!-- Admin Validation Page -->
+        <AdminValidationPage v-else-if="activeSection === 'admin-pov'" />
         
         <!-- Summary Card -->
         <div v-else-if="activeSection === 'ringkasan'" class="summary-card">
@@ -221,6 +231,7 @@ import WriteStoryPage from './WriteStoryPage.vue'
 import OpportunitiesPage from './OpportunitiesPage.vue'
 import EventsPage from './EventsPage.vue'
 import CertificatesPage from './CertificatesPage.vue'
+import AdminValidationPage from './AdminValidationPage.vue'
 
 const activeSection = ref('ringkasan')
 const currentPage = ref(1)
@@ -304,7 +315,7 @@ const nextPage = () => {
 
 .dashboard-title {
   color: white;
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 700;
   letter-spacing: -0.5px;
 }
@@ -343,11 +354,12 @@ const nextPage = () => {
   width: 280px;
   background: white;
   border-radius: 16px;
-  padding: 24px 0;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 16px 0;
+  box-shadow: var(--shadow-md);
   height: fit-content;
   position: sticky;
   top: 24px;
+  border: 1px solid var(--gray-100);
 }
 
 .sidebar-nav {
@@ -367,28 +379,51 @@ const nextPage = () => {
 
 .nav-item,
 .nav-header {
-  padding: 14px 24px;
+  padding: 12px 20px;
   display: flex;
   align-items: center;
   gap: 12px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  color: #4a5568;
-  font-size: 15px;
+  transition: all 0.2s ease;
+  color: #4b5568;
+  font-size: 14px;
   font-weight: 500;
+  border-radius: 8px;
+  margin: 0 8px;
 }
 
 .nav-item:hover,
 .nav-header:hover {
-  background: linear-gradient(90deg, rgba(249, 115, 22, 0.1) 0%, transparent 100%);
-  color: #f97316;
+  background: var(--gray-50);
+  color: var(--primary-600);
 }
 
 .nav-item.active {
-  background: linear-gradient(90deg, rgba(249, 115, 22, 0.15) 0%, transparent 100%);
-  color: #f97316;
-  border-left: 4px solid #f97316;
+  background: var(--primary-50);
+  color: var(--primary-600);
+  border-left: 3px solid var(--primary-500);
   font-weight: 600;
+}
+
+.admin-section {
+  margin-top: 16px;
+  border-top: 2px dashed #e2e8f0;
+  padding-top: 16px;
+}
+
+.admin-section .nav-item {
+  color: #4f46e5;
+}
+
+.admin-section .nav-item:hover {
+  background: linear-gradient(90deg, rgba(79, 70, 229, 0.1) 0%, transparent 100%);
+  color: #4338ca;
+}
+
+.admin-section .nav-item.active {
+  background: linear-gradient(90deg, rgba(79, 70, 229, 0.15) 0%, transparent 100%);
+  color: #4338ca;
+  border-left: 4px solid #4f46e5;
 }
 
 .nav-icon {
@@ -412,20 +447,20 @@ const nextPage = () => {
 }
 
 .nav-subitem {
-  padding: 12px 24px;
+  padding: 10px 24px;
   cursor: pointer;
-  color: #718096;
+  color: var(--gray-500);
   font-size: 14px;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease-in-out;
 }
 
 .nav-subitem:hover {
-  color: #f97316;
-  background: rgba(249, 115, 22, 0.05);
+  color: var(--primary-600);
+  background: var(--gray-50);
 }
 
 .nav-subitem.active {
-  color: #f97316;
+  color: var(--primary-600);
   font-weight: 600;
 }
 
@@ -439,16 +474,18 @@ const nextPage = () => {
 
 /* Summary Card */
 .summary-card {
-  background: white;
-  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.85); /* Glassmorphism base */
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
   padding: 32px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-xl);
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 .summary-title {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
-  color: #2d3748;
+  color: var(--gray-800);
   margin-bottom: 24px;
 }
 
@@ -464,13 +501,16 @@ const nextPage = () => {
   gap: 16px;
   padding: 20px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  background: white;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--gray-100);
   transition: all 0.3s ease;
 }
 
 .stat-item:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-100);
 }
 
 .stat-icon {
@@ -512,16 +552,18 @@ const nextPage = () => {
 /* Sections */
 .campaign-section,
 .opportunities-section {
-  background: white;
-  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
   padding: 32px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 .section-title {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
-  color: #2d3748;
+  color: var(--gray-800);
   margin-bottom: 24px;
 }
 
@@ -554,14 +596,15 @@ const nextPage = () => {
   background: white;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-md);
   transition: all 0.3s ease;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--gray-100);
 }
 
 .opportunity-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-100);
 }
 
 .opportunity-image {

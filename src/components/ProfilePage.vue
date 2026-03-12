@@ -1,7 +1,11 @@
 <template>
   <div class="profile-container">
     <div class="profile-header">
-      <h1 class="page-title">Detail Akun Saya</h1>
+      <div class="header-icon">👤</div>
+      <div>
+        <h1 class="page-title">Detail Akun Saya</h1>
+        <p class="page-subtitle">Kelola informasi profil relawan Anda</p>
+      </div>
     </div>
 
     <div class="profile-content">
@@ -122,15 +126,32 @@ const editProfile = () => {
 }
 
 .profile-header {
-  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+  padding: 20px 24px;
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.5);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
 
+.header-icon { font-size: 36px; flex-shrink: 0; }
+
 .page-title {
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 700;
-  color: #f97316;
+  color: #111827;
+  margin: 0 0 4px;
+  letter-spacing: -0.5px;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: #6b7280;
   margin: 0;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .profile-content {
@@ -138,12 +159,13 @@ const editProfile = () => {
 }
 
 .profile-card {
-  background: white;
+  background: rgba(255, 255, 255, 0.85); /* Glassmorphism base */
+  backdrop-filter: blur(12px);
   border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(249, 115, 22, 0.15);
+  box-shadow: var(--shadow-xl);
   overflow: hidden;
-  border: 2px solid rgba(249, 115, 22, 0.1);
-  animation: slideUp 0.5s ease-out;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes slideUp {
@@ -158,15 +180,15 @@ const editProfile = () => {
 }
 
 .card-header {
-  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
-  padding: 24px 32px;
-  border-bottom: 2px solid #fed7aa;
+  background: transparent;
+  padding: 24px 32px 16px;
+  border-bottom: 1px solid var(--gray-100);
 }
 
 .card-title {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--gray-800);
   margin: 0;
 }
 
@@ -188,33 +210,33 @@ const editProfile = () => {
   display: grid;
   grid-template-columns: 200px 1fr;
   gap: 24px;
-  padding: 16px 0;
-  border-bottom: 1px solid #f3f4f6;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid transparent;
   transition: all 0.3s ease;
 }
 
 .info-row:hover {
-  background: linear-gradient(90deg, rgba(249, 115, 22, 0.03) 0%, transparent 100%);
-  padding-left: 12px;
-  border-left: 3px solid #f97316;
-}
-
-.info-row:last-child {
-  border-bottom: none;
+  background: var(--gray-50);
+  border-color: var(--gray-100);
+  transform: translateX(4px);
 }
 
 .info-label {
   font-weight: 600;
-  color: #6b7280;
-  font-size: 15px;
+  color: var(--gray-500);
+  font-size: 14px;
   display: flex;
   align-items: flex-start;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .info-value {
-  color: #1f2937;
+  color: var(--gray-800);
   font-size: 15px;
   line-height: 1.6;
+  font-weight: 500;
   word-break: break-word;
 }
 
@@ -246,18 +268,30 @@ const editProfile = () => {
 }
 
 .photo-container {
-  width: 250px;
-  height: 300px;
-  border-radius: 16px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%; /* Circle avatar */
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-  border: 3px solid #f97316;
+  box-shadow: var(--shadow-lg);
+  border: 4px solid white;
   background: white;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
   position: relative;
+  z-index: 1;
+}
+
+.photo-container::before {
+  content: '';
+  position: absolute;
+  top: -8px; left: -8px; right: -8px; bottom: -8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-500), var(--primary-100));
+  z-index: -1;
+  opacity: 0.5;
+  transition: all 0.3s ease;
 }
 
 .photo-container::after {
@@ -290,8 +324,13 @@ const editProfile = () => {
 }
 
 .photo-container:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 16px 40px rgba(249, 115, 22, 0.2);
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: var(--shadow-xl);
+}
+
+.photo-container:hover::before {
+  opacity: 1;
+  transform: scale(1.05);
 }
 
 .photo-placeholder {
@@ -343,32 +382,32 @@ const editProfile = () => {
 /* Card Actions */
 .card-actions {
   padding: 24px 32px;
-  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
-  border-top: 2px solid #fed7aa;
+  background: var(--gray-50);
+  border-top: 1px solid var(--gray-100);
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
 }
 
 .btn-edit {
-  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  background: var(--primary-500);
   color: white;
   border: none;
-  padding: 14px 36px;
+  padding: 12px 32px;
   border-radius: 12px;
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 10px;
-  box-shadow: 0 4px 16px rgba(249, 115, 22, 0.3);
-  transition: all 0.3s ease;
+  gap: 8px;
+  box-shadow: var(--shadow-md);
+  transition: all 0.2s ease-in-out;
 }
 
 .btn-edit:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(249, 115, 22, 0.4);
-  background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%);
+  box-shadow: var(--shadow-orange);
+  background: var(--primary-600);
 }
 
 .btn-edit:active {

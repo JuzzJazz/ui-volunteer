@@ -292,21 +292,31 @@ const closeModal = () => {
 }
 
 .page-header {
-  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+  padding: 20px 24px;
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.5);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
 
 .page-title {
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 700;
-  color: #1f2937;
+  color: #111827;
   margin: 0;
   display: flex;
   align-items: center;
   gap: 12px;
+  letter-spacing: -0.5px;
 }
 
 .title-icon {
-  font-size: 32px;
+  font-size: 28px;
   animation: write 2s ease-in-out infinite;
 }
 
@@ -317,11 +327,13 @@ const closeModal = () => {
 }
 
 .story-form-card {
-  background: white;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(12px);
   border-radius: 20px;
   padding: 32px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  animation: slideUp 0.5s ease-out;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(255,255,255,0.5);
+  animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes slideUp {
@@ -336,11 +348,11 @@ const closeModal = () => {
 }
 
 .form-description {
-  margin-bottom: 32px;
-  padding: 20px;
-  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+  margin-bottom: 28px;
+  padding: 16px 20px;
+  background: #f0fdf4;
   border-radius: 12px;
-  border-left: 4px solid #f97316;
+  border-left: 4px solid #10b981;
 }
 
 .description-text {

@@ -208,14 +208,20 @@ const nextPage = () => {
 
 .history-header {
   margin-bottom: 24px;
+  padding: 20px 24px;
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.5);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
 
 .page-title {
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 700;
-  color: #f97316;
+  color: #111827;
   margin: 0;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  letter-spacing: -0.5px;
 }
 
 .history-content {
@@ -224,10 +230,12 @@ const nextPage = () => {
 
 /* History Section */
 .history-section {
-  background: white;
-  border-radius: 16px;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
   padding: 24px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(255,255,255,0.5);
 }
 
 /* Empty State */
@@ -272,26 +280,20 @@ const nextPage = () => {
 .history-card {
   background: white;
   border-radius: 16px;
-  border: 2px solid #e5e7eb;
+  border: 1px solid #e5e7eb;
   overflow: hidden;
-  transition: all 0.3s ease;
-  animation: fadeIn 0.5s ease-out;
+  transition: all 0.25s ease;
+  animation: fadeIn 0.4s ease-out;
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .history-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
   border-color: #f97316;
 }
 
@@ -309,9 +311,9 @@ const nextPage = () => {
 
 /* Card Header */
 .card-header-section {
-  padding: 16px 20px;
-  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
-  border-bottom: 1px solid #fed7aa;
+  padding: 12px 20px;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -509,21 +511,21 @@ const nextPage = () => {
 }
 
 .stat-box {
-  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
-  border: 1px solid #fed7aa;
+  background: #f9fafb;
+  border: 1px solid #f3f4f6;
   border-radius: 12px;
   padding: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .stat-box:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(249, 115, 22, 0.2);
-  border-color: #f97316;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  border-color: #fed7aa;
 }
 
 .stat-icon {

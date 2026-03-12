@@ -86,15 +86,39 @@
           Hadiah & Penghargaan
         </h2>
         
-        <div v-if="rewards.length === 0" class="empty-state">
+        <div class="reward-tabs">
+          <button 
+            class="tab-btn" 
+            :class="{ active: currentTab === 'all' }"
+            @click="currentTab = 'all'"
+          >
+            Semua
+          </button>
+          <button 
+            class="tab-btn" 
+            :class="{ active: currentTab === 'liburan' }"
+            @click="currentTab = 'liburan'"
+          >
+            ✈️ Liburan & Trip
+          </button>
+          <button 
+            class="tab-btn" 
+            :class="{ active: currentTab === 'merchandise' }"
+            @click="currentTab = 'merchandise'"
+          >
+            👕 Merchandise
+          </button>
+        </div>
+
+        <div v-if="filteredRewards.length === 0" class="empty-state">
           <div class="empty-icon">🎁</div>
-          <h3 class="empty-title">Belum Ada Hadiah</h3>
+          <h3 class="empty-title">Belum Ada Hadiah di Kategori Ini</h3>
           <p class="empty-text">Kumpulkan poin dan badge untuk mendapatkan hadiah menarik!</p>
         </div>
 
         <div v-else class="rewards-list">
           <div 
-            v-for="reward in rewards" 
+            v-for="reward in filteredRewards" 
             :key="reward.id"
             class="reward-card"
           >
@@ -135,9 +159,18 @@
                   <span class="expiry-icon">🗓️</span>
                   <span class="expiry-text">Berakhir: {{ reward.expiryDate }}</span>
                 </div>
-                <span class="status-badge" :class="`status-${reward.status}`">
-                  {{ reward.status === 'active' ? 'Kadaluarsa' : 'Berakhir' }}
-                </span>
+                <div class="footer-actions">
+                  <span class="status-badge" :class="`status-${reward.status}`">
+                    {{ reward.status === 'active' ? 'Tersedia' : 'Berakhir' }}
+                  </span>
+                  <button 
+                    v-if="reward.status === 'active'"
+                    class="btn-tukar" 
+                    :disabled="currentPoin < reward.points || totalBadges < reward.badges"
+                  >
+                    Tukar Poin
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -150,7 +183,8 @@
 <script setup>
 import { ref, computed } from 'vue'
 
-const currentPoin = ref(0)
+const currentTab = ref('all')
+const currentPoin = ref(1200) // Updated for better demo
 const maxPoin = ref(1500)
 
 const poinPercentage = computed(() => {
@@ -200,19 +234,58 @@ const totalBadges = computed(() => {
   return badges.value.reduce((sum, badge) => sum + badge.count, 0)
 })
 
-// Sample rewards data
+// Sample rewards data with categories
 const rewards = ref([
   {
     id: 1,
+    category: 'liburan',
     title: 'Ayo! Kumpulkan poinmu hingga 1.500 untuk mendapatkan GRATIS trip volunteer ke Bengkayang, Kalimantan Barat!',
     description: 'Kamu akan mendapatkan pengalaman tinggal bersama masyarakat, berkegiatan dengan anak-anak dan masyarakat, jalan-jalan ke tempat wisata menarik sekitar Bengkayang.',
     points: 1500,
     badges: 20,
-    expiryDate: '2021-06-11',
+    expiryDate: '2025-12-31',
     status: 'active',
-    image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=200&h=150&fit=crop'
+    image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400&h=300&fit=crop'
+  },
+  {
+    id: 2,
+    category: 'liburan',
+    title: 'Trip Volunteer Eksklusif: Mengajar di Pulau Komodo',
+    description: 'Jadilah bagian dari perubahan dengan membagikan ilmu di sekolah-sekolah lokal di Pulau Komodo, sekaligus menikmati keindahan alamnya.',
+    points: 2500,
+    badges: 30,
+    expiryDate: '2026-06-30',
+    status: 'active',
+    image: 'https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=400&h=300&fit=crop'
+  },
+  {
+    id: 3,
+    category: 'merchandise',
+    title: 'T-Shirt Eksklusif Relawan Wahana Visi',
+    description: 'Tukarkan poinmu dengan T-Shirt eksklusif berbahan cotton combed 30s premium. Tunjukkan kebanggaanmu sebagai relawan!',
+    points: 500,
+    badges: 5,
+    expiryDate: '2025-10-15',
+    status: 'active',
+    image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=300&fit=crop'
+  },
+  {
+    id: 4,
+    category: 'merchandise',
+    title: 'Tumbler Stainless Steel Ramah Lingkungan',
+    description: 'Kurangi penggunaan plastik dengan tumbler premium ini. Menjaga suhu minuman hingga 12 jam. Cocok untuk menemanimu saat kegiatan volunteer.',
+    points: 800,
+    badges: 10,
+    expiryDate: '2025-11-20',
+    status: 'active',
+    image: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=300&fit=crop'
   }
 ])
+
+const filteredRewards = computed(() => {
+  if (currentTab.value === 'all') return rewards.value
+  return rewards.value.filter(r => r.category === currentTab.value)
+})
 </script>
 
 <style scoped>
@@ -637,6 +710,40 @@ const rewards = ref([
 }
 
 /* Pemberian Section */
+.reward-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.tab-btn {
+  padding: 10px 24px;
+  border-radius: 30px;
+  border: 2px solid #e2e8f0;
+  background: white;
+  color: #4a5568;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  border-color: #f97316;
+  color: #f97316;
+  background: #fff7ed;
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+}
+
 .empty-state {
   text-align: center;
   padding: 80px 20px;
@@ -830,12 +937,44 @@ const rewards = ref([
 }
 
 .status-badge {
-  padding: 8px 20px;
+  padding: 6px 16px;
   border-radius: 20px;
   font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+.footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-tukar {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 25px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-tukar:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+}
+
+.btn-tukar:disabled {
+  background: #d1d5db;
+  color: #6b7280;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
 }
 
 .status-badge.status-active {

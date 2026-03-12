@@ -290,15 +290,20 @@ const nextPage = () => {
 
 .campaign-header {
   margin-bottom: 24px;
+  padding: 20px 24px;
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.5);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
 
 .page-title {
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 700;
-  color: #f97316;
+  color: #111827;
   margin: 0;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-  letter-spacing: 1px;
+  letter-spacing: -0.5px;
 }
 
 .campaign-content {
@@ -307,12 +312,14 @@ const nextPage = () => {
 
 /* Filter Section */
 .filter-card {
-  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(12px);
   border-radius: 16px;
-  padding: 24px;
+  padding: 20px 24px;
   margin-bottom: 24px;
-  box-shadow: 0 4px 20px rgba(249, 115, 22, 0.3);
-  animation: slideDown 0.5s ease-out;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+  animation: slideDown 0.4s ease-out;
 }
 
 @keyframes slideDown {
@@ -340,7 +347,7 @@ const nextPage = () => {
 }
 
 .filter-label {
-  color: white;
+  color: #374151;
   font-weight: 600;
   font-size: 14px;
 }
@@ -351,20 +358,22 @@ const nextPage = () => {
 
 .filter-select {
   width: 100%;
-  padding: 12px 40px 12px 16px;
-  border: none;
+  padding: 10px 40px 10px 14px;
+  border: 1.5px solid #e5e7eb;
   border-radius: 10px;
-  font-size: 15px;
+  font-size: 14px;
   background: white;
   color: #1f2937;
   cursor: pointer;
   appearance: none;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  font-family: inherit;
 }
 
 .filter-select:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+  border-color: #f97316;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
 }
 
 .select-arrow {
@@ -372,31 +381,32 @@ const nextPage = () => {
   right: 12px;
   top: 50%;
   transform: translateY(-50%);
-  color: #f97316;
+  color: #9ca3af;
   font-size: 12px;
   pointer-events: none;
 }
 
 .btn-search {
-  background: #fbbf24;
-  color: #1f2937;
+  background: #f97316;
+  color: white;
   border: none;
-  padding: 12px 32px;
+  padding: 10px 28px;
   border-radius: 10px;
-  font-weight: 700;
-  font-size: 15px;
+  font-weight: 600;
+  font-size: 14px;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 8px;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.25);
+  font-family: inherit;
 }
 
 .btn-search:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(251, 191, 36, 0.4);
-  background: #f59e0b;
+  box-shadow: 0 6px 20px rgba(249, 115, 22, 0.35);
+  background: #ea580c;
 }
 
 .btn-icon {
@@ -405,10 +415,12 @@ const nextPage = () => {
 
 /* Campaigns Section */
 .campaigns-section {
-  background: white;
-  border-radius: 16px;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
   padding: 24px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(255,255,255,0.5);
 }
 
 /* Empty State */
@@ -453,26 +465,20 @@ const nextPage = () => {
 .campaign-card {
   background: white;
   border-radius: 16px;
-  border: 2px solid #e5e7eb;
+  border: 1px solid #e5e7eb;
   overflow: hidden;
-  transition: all 0.3s ease;
-  animation: fadeIn 0.5s ease-out;
+  transition: all 0.25s ease;
+  animation: fadeIn 0.4s ease-out;
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .campaign-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
   border-color: #f97316;
 }
 
@@ -497,9 +503,9 @@ const nextPage = () => {
 }
 
 .card-header-section {
-  padding: 16px 20px;
-  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
-  border-bottom: 1px solid #fed7aa;
+  padding: 12px 20px;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -642,14 +648,16 @@ const nextPage = () => {
   align-items: center;
   gap: 10px;
   padding: 12px;
-  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
-  border-radius: 8px;
-  transition: all 0.3s ease;
+  background: #f9fafb;
+  border: 1px solid #f3f4f6;
+  border-radius: 10px;
+  transition: all 0.2s ease;
 }
 
 .stat-box:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-color: #fed7aa;
 }
 
 .stat-icon {
