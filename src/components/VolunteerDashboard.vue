@@ -88,9 +88,18 @@
           </div>
 
           <div class="nav-section admin-section">
-            <div class="nav-item" @click="activeSection = 'admin-pov'">
+            <div class="nav-header" @click="toggleSection('admin')">
               <span class="nav-icon">👑</span>
               <span>Admin POV</span>
+              <span class="dropdown-icon" :class="{ open: expandedSections.admin }">▼</span>
+            </div>
+            <div v-show="expandedSections.admin" class="nav-submenu">
+              <div class="nav-subitem" @click="activeSection = 'admin-pov'">
+                Validasi Campaign
+              </div>
+              <div class="nav-subitem" @click="activeSection = 'kelola-rewards'">
+                Kelola Rewards
+              </div>
             </div>
           </div>
         </nav>
@@ -127,6 +136,9 @@
         
         <!-- Admin Validation Page -->
         <AdminValidationPage v-else-if="activeSection === 'admin-pov'" />
+        
+        <!-- Admin Rewards Page -->
+        <AdminRewardsPage v-else-if="activeSection === 'kelola-rewards'" />
         
         <!-- Summary Card -->
         <div v-else-if="activeSection === 'ringkasan'" class="summary-card">
@@ -232,6 +244,7 @@ import OpportunitiesPage from './OpportunitiesPage.vue'
 import EventsPage from './EventsPage.vue'
 import CertificatesPage from './CertificatesPage.vue'
 import AdminValidationPage from './AdminValidationPage.vue'
+import AdminRewardsPage from './AdminRewardsPage.vue'
 
 const activeSection = ref('ringkasan')
 const currentPage = ref(1)
@@ -239,7 +252,8 @@ const currentPage = ref(1)
 const expandedSections = reactive({
   profil: true,
   perjalanan: false,
-  'ayo-terlibat': false
+  'ayo-terlibat': false,
+  admin: false
 })
 
 const opportunities = ref([

@@ -116,61 +116,48 @@
           <p class="empty-text">Kumpulkan poin dan badge untuk mendapatkan hadiah menarik!</p>
         </div>
 
-        <div v-else class="rewards-list">
+        <div v-else class="rewards-grid">
           <div 
             v-for="reward in filteredRewards" 
             :key="reward.id"
             class="reward-card"
+            @click="handleRewardClick(reward)"
           >
-            <div class="reward-badge-corner">
-              <span class="corner-icon">⭐</span>
-            </div>
-
+            <!-- Image -->
             <div class="reward-image">
               <img :src="reward.image" :alt="reward.title" />
-              <div class="image-badge">
-                <span>{{ reward.points }} Poin</span>
-              </div>
+              <div class="image-poin-pill">{{ reward.points }} Poin</div>
+              <div class="image-star">⭐</div>
             </div>
-            
+
+            <!-- Content -->
             <div class="reward-content">
+              <span class="reward-category-tag" :class="reward.category">
+                {{ reward.category === 'liburan' ? '✈️ Liburan' : '👕 Merchandise' }}
+              </span>
               <h3 class="reward-title">{{ reward.title }}</h3>
-              <p class="reward-description">{{ reward.description }}</p>
-              
-              <div class="reward-requirements">
-                <div class="requirement-item">
-                  <div class="requirement-icon">❤️</div>
-                  <div class="requirement-details">
-                    <span class="requirement-label">Poin Dibutuhkan</span>
-                    <span class="requirement-value">{{ reward.points }} Poin</span>
-                  </div>
-                </div>
-                <div class="requirement-item">
-                  <div class="requirement-icon">🏆</div>
-                  <div class="requirement-details">
-                    <span class="requirement-label">Badge Dibutuhkan</span>
-                    <span class="requirement-value">{{ reward.badges }} Badge</span>
-                  </div>
-                </div>
+
+              <!-- Requirement chips -->
+              <div class="reward-chips">
+                <span class="chip chip-poin" :class="{ 'chip-ok': currentPoin >= reward.points }">
+                  ❤️ {{ reward.points }} Poin
+                </span>
+                <span class="chip chip-badge" :class="{ 'chip-ok': totalBadges >= reward.badges }">
+                  🏆 {{ reward.badges }} Badge
+                </span>
               </div>
 
+              <!-- Footer -->
               <div class="reward-footer">
-                <div class="expiry-info">
-                  <span class="expiry-icon">🗓️</span>
-                  <span class="expiry-text">Berakhir: {{ reward.expiryDate }}</span>
-                </div>
-                <div class="footer-actions">
-                  <span class="status-badge" :class="`status-${reward.status}`">
-                    {{ reward.status === 'active' ? 'Tersedia' : 'Berakhir' }}
-                  </span>
-                  <button 
-                    v-if="reward.status === 'active'"
-                    class="btn-tukar" 
-                    :disabled="currentPoin < reward.points || totalBadges < reward.badges"
-                  >
-                    Tukar Poin
-                  </button>
-                </div>
+                <span class="expiry-text">🗓️ {{ reward.expiryDate }}</span>
+                <button 
+                  v-if="reward.status === 'active'"
+                  class="btn-tukar" 
+                  @click="handleRewardClick(reward)"
+                >
+                  🎁 Tukar
+                </button>
+                <span v-else class="badge-expired">Berakhir</span>
               </div>
             </div>
           </div>
@@ -178,6 +165,170 @@
       </div>
     </div>
   </div>
+
+  <!-- Redemption Confirmation Modal -->
+  <Transition name="modal-fade">
+    <div v-if="confirmModal.show" class="modal-backdrop" @click.self="closeConfirmModal">
+      <div class="confirm-modal">
+
+        <!-- Step 1: Confirm -->
+        <div v-if="!confirmModal.success" class="modal-step">
+          <button class="modal-close-btn" @click="closeConfirmModal">✕</button>
+
+          <div class="modal-reward-img">
+            <img :src="confirmModal.reward?.image" :alt="confirmModal.reward?.title" />
+            <div class="modal-img-overlay"></div>
+            <div class="modal-poin-pill">🎁 {{ confirmModal.reward?.points }} Poin</div>
+          </div>
+
+          <div class="modal-body">
+            <div class="modal-icon-badge">🎁</div>
+            <h3 class="modal-title">Konfirmasi Penukaran</h3>
+            <p class="modal-reward-name">{{ confirmModal.reward?.title }}</p>
+
+            <div class="modal-summary">
+              <div class="summary-row">
+                <span class="summary-label">Poin Kamu</span>
+                <span class="summary-value current">{{ currentPoin }} Poin</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-label">Biaya Penukaran</span>
+                <span class="summary-value cost">- {{ confirmModal.reward?.points }} Poin</span>
+              </div>
+              <div class="summary-divider"></div>
+              <div class="summary-row">
+                <span class="summary-label">Sisa Poin</span>
+                <span class="summary-value remain">{{ currentPoin - (confirmModal.reward?.points || 0) }} Poin</span>
+              </div>
+            </div>
+
+            <p class="modal-hint">⚠️ Penukaran tidak dapat dibatalkan setelah dikonfirmasi.</p>
+
+            <div class="modal-actions">
+              <button class="btn-batal" @click="closeConfirmModal">Batal</button>
+              <button class="btn-konfirmasi" @click="confirmRedemption" :disabled="confirmModal.loading">
+                <span v-if="!confirmModal.loading">✅ Ya, Tukar Sekarang!</span>
+                <span v-else class="loading-dots">Memproses<span>.</span><span>.</span><span>.</span></span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Success -->
+        <div v-else class="modal-step modal-success">
+          <div class="confetti-wrapper">
+            <span v-for="i in 12" :key="i" class="confetti-piece" :style="{ '--i': i }"></span>
+          </div>
+          <div class="success-icon">🎉</div>
+          <h3 class="success-title">Penukaran Berhasil!</h3>
+          <p class="success-desc">Kamu berhasil menukarkan <strong>{{ confirmModal.reward?.points }} Poin</strong> untuk:</p>
+          <p class="success-reward-name">{{ confirmModal.reward?.title }}</p>
+          <div class="success-points-badge">Sisa Poin: {{ currentPoin }} ✨</div>
+          <button class="btn-konfirmasi" style="margin-top: 24px;" @click="closeConfirmModal">Tutup</button>
+        </div>
+
+      </div>
+    </div>
+  </Transition>
+
+  <!-- ===== TRAVEL DETAIL MODAL ===== -->
+  <Transition name="modal-fade">
+    <div v-if="travelModal.show" class="modal-backdrop" @click.self="closeTravelModal">
+      <div class="travel-modal confirm-modal">
+        
+        <div v-if="!travelModal.success" class="modal-step">
+          <button class="modal-close-btn" @click="closeTravelModal">✕</button>
+
+          <div class="modal-reward-img travel-img">
+            <img :src="travelModal.reward?.image" :alt="travelModal.reward?.title" />
+            <div class="modal-img-overlay"></div>
+            <div class="travel-banner-title">
+              <h3>{{ travelModal.reward?.title }}</h3>
+              <p>🗓️ Berakhir: {{ travelModal.reward?.expiryDate }}</p>
+            </div>
+          </div>
+
+          <div class="travel-body">
+            <div class="travel-desc-box">
+              <p>{{ travelModal.reward?.description }}</p>
+            </div>
+
+            <div class="claim-items-container">
+              <h4 class="claim-section-title">Pilih Item untuk Diklaim</h4>
+              
+              <div 
+                v-for="(item, index) in travelModal.reward?.claimableItems" 
+                :key="index"
+                class="claim-item"
+                :class="{ 'is-selected': isItemSelected(item), 'is-disabled': !canAffordItem(item) }"
+                @click="toggleItemSelection(item)"
+              >
+                <div class="item-checkbox">
+                  <div class="checkbox-box" :class="{ checked: isItemSelected(item) }">
+                    <span v-if="isItemSelected(item)">✓</span>
+                  </div>
+                </div>
+                <div class="item-info">
+                  <span class="item-name">{{ item.name }}</span>
+                </div>
+                <div class="item-cost">
+                  <span>{{ item.points }} Poin</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="travel-summary-bar">
+              <div class="bar-left">
+                <span class="bar-label">Total Poin Terpilih</span>
+                <span class="bar-value" :class="{ 'error': selectedTotalPoints > currentPoin }">
+                  {{ selectedTotalPoints }} Poin
+                </span>
+                <span class="bar-balance">(Saldo: {{ currentPoin }})</span>
+              </div>
+            </div>
+
+            <div class="modal-actions travel-actions">
+              <button 
+                class="btn-batal" 
+                @click="claimAllTravel"
+                :disabled="!canAffordAll || travelModal.loading"
+              >
+                Klaim Semua Item
+              </button>
+              <button 
+                class="btn-konfirmasi" 
+                @click="claimSelectedTravel" 
+                :disabled="selectedItems.length === 0 || selectedTotalPoints > currentPoin || travelModal.loading"
+              >
+                <span v-if="!travelModal.loading">🚀 Klaim Terpilih</span>
+                <span v-else class="loading-dots">Memproses<span>.</span><span>.</span><span>.</span></span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Travel Success -->
+        <div v-else class="modal-step modal-success travel-success">
+          <div class="confetti-wrapper">
+            <span v-for="i in 16" :key="i" class="confetti-piece" :style="{ '--i': i }"></span>
+          </div>
+          <div class="success-icon">✈️</div>
+          <h3 class="success-title">Yey! Pembelian Tiket Berhasil</h3>
+          <p class="success-desc">Kamu telah berhasil mengklaim item perjalanan berikut:</p>
+          
+          <ul class="success-claimed-list">
+            <li v-for="item in travelModal.claimedItems" :key="item.name">
+              ✓ {{ item.name }} ({{ item.points }} Poin)
+            </li>
+          </ul>
+
+          <div class="success-points-badge">Sisa Poin: {{ currentPoin }} ✨</div>
+          <button class="btn-konfirmasi" style="margin-top: 24px;" @click="closeTravelModal">Selesai</button>
+        </div>
+
+      </div>
+    </div>
+  </Transition>
 </template>
 
 <script setup>
@@ -245,7 +396,12 @@ const rewards = ref([
     badges: 20,
     expiryDate: '2025-12-31',
     status: 'active',
-    image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400&h=300&fit=crop'
+    image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400&h=300&fit=crop',
+    claimableItems: [
+      { name: 'Tiket Pesawat (PP)', points: 800 },
+      { name: 'Penginapan (3 Malam)', points: 500 },
+      { name: 'Konsumsi & Akomodasi Lokal', points: 200 }
+    ]
   },
   {
     id: 2,
@@ -256,7 +412,12 @@ const rewards = ref([
     badges: 30,
     expiryDate: '2026-06-30',
     status: 'active',
-    image: 'https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=400&h=300&fit=crop'
+    image: 'https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=400&h=300&fit=crop',
+    claimableItems: [
+      { name: 'Tiket Pesawat (PP)', points: 1200 },
+      { name: 'Penginapan Kapal (4 Malam)', points: 900 },
+      { name: 'Peralatan Mengajar & Konsumsi', points: 400 }
+    ]
   },
   {
     id: 3,
@@ -286,6 +447,110 @@ const filteredRewards = computed(() => {
   if (currentTab.value === 'all') return rewards.value
   return rewards.value.filter(r => r.category === currentTab.value)
 })
+
+// --- Confirmation Modal ---
+const confirmModal = ref({
+  show: false,
+  reward: null,
+  loading: false,
+  success: false
+})
+
+const openConfirmModal = (reward) => {
+  confirmModal.value = { show: true, reward, loading: false, success: false }
+}
+
+const closeConfirmModal = () => {
+  confirmModal.value.show = false
+}
+
+const confirmRedemption = async () => {
+  confirmModal.value.loading = true
+  await new Promise(resolve => setTimeout(resolve, 1400))
+  currentPoin.value -= confirmModal.value.reward.points
+  confirmModal.value.loading = false
+  confirmModal.value.success = true
+}
+
+// --- Travel Detail Modal ---
+const travelModal = ref({
+  show: false,
+  reward: null,
+  loading: false,
+  success: false,
+  claimedItems: []
+})
+
+const selectedItems = ref([])
+
+const handleRewardClick = (reward) => {
+  if (reward.category === 'liburan') {
+    openTravelModal(reward)
+  } else {
+    // Check points for merchandise here since we removed disabled form button
+    if (currentPoin.value >= reward.points && totalBadges.value >= reward.badges) {
+      openConfirmModal(reward)
+    } else {
+      alert('Poin atau badge belum mencukupi untuk item ini.')
+    }
+  }
+}
+
+const openTravelModal = (reward) => {
+  travelModal.value = { show: true, reward, loading: false, success: false, claimedItems: [] }
+  selectedItems.value = []
+}
+
+const closeTravelModal = () => {
+  travelModal.value.show = false
+  selectedItems.value = []
+}
+
+const isItemSelected = (item) => {
+  return selectedItems.value.some(i => i.name === item.name)
+}
+
+const canAffordItem = (item) => {
+  const costWithoutItem = isItemSelected(item) ? selectedTotalPoints.value - item.points : selectedTotalPoints.value;
+  return (costWithoutItem + item.points) <= currentPoin.value;
+}
+
+const toggleItemSelection = (item) => {
+  if (isItemSelected(item)) {
+    selectedItems.value = selectedItems.value.filter(i => i.name !== item.name)
+  } else {
+    if (canAffordItem(item)) {
+      selectedItems.value.push(item)
+    }
+  }
+}
+
+const selectedTotalPoints = computed(() => {
+  return selectedItems.value.reduce((sum, item) => sum + item.points, 0)
+})
+
+const canAffordAll = computed(() => {
+  if (!travelModal.value.reward) return false;
+  return currentPoin.value >= travelModal.value.reward.points;
+})
+
+const claimAllTravel = () => {
+  selectedItems.value = [...travelModal.value.reward.claimableItems]
+  claimSelectedTravel()
+}
+
+const claimSelectedTravel = async () => {
+  if (selectedItems.value.length === 0) return;
+  
+  travelModal.value.loading = true
+  await new Promise(resolve => setTimeout(resolve, 1500))
+  
+  currentPoin.value -= selectedTotalPoints.value
+  travelModal.value.claimedItems = [...selectedItems.value]
+  
+  travelModal.value.loading = false
+  travelModal.value.success = true
+}
 </script>
 
 <style scoped>
@@ -294,15 +559,24 @@ const filteredRewards = computed(() => {
 }
 
 .page-header {
-  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+  padding: 20px 24px;
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.5);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
 
 .page-title {
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 700;
-  color: #f97316;
+  color: #111827;
   margin: 0;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  letter-spacing: -0.5px;
 }
 
 .content-wrapper {
@@ -771,207 +1045,168 @@ const filteredRewards = computed(() => {
   margin: 0 auto;
 }
 
-.rewards-list {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+/* Rewards Grid */
+.rewards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
 }
 
 .reward-card {
   background: white;
-  border-radius: 20px;
+  border-radius: 16px;
   overflow: hidden;
-  border: 2px solid #e5e7eb;
-  transition: all 0.3s ease;
+  border: 1px solid #e5e7eb;
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
   position: relative;
+  cursor: pointer;
 }
 
 .reward-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
   border-color: #f97316;
 }
 
-.reward-badge-corner {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 48px;
-  height: 48px;
-  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
-  z-index: 10;
-  animation: bounce 2s ease-in-out infinite;
-}
-
-.corner-icon {
-  font-size: 24px;
-}
-
+/* Card image */
 .reward-image {
   width: 100%;
-  height: 250px;
+  height: 140px;
   position: relative;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .reward-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  transition: transform 0.4s ease;
 }
 
-.reward-card:hover .reward-image img {
-  transform: scale(1.1);
-}
+.reward-card:hover .reward-image img { transform: scale(1.08); }
 
-.image-badge {
+.image-poin-pill {
   position: absolute;
-  bottom: 16px;
-  left: 16px;
-  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  bottom: 8px;
+  left: 10px;
+  background: linear-gradient(135deg, #f97316, #ea580c);
   color: white;
-  padding: 8px 20px;
-  border-radius: 30px;
-  font-size: 16px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
   font-weight: 700;
-  box-shadow: 0 4px 16px rgba(249, 115, 22, 0.4);
-  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.4);
 }
 
-.reward-content {
-  padding: 28px;
-}
-
-.reward-title {
+.image-star {
+  position: absolute;
+  top: 8px;
+  right: 10px;
   font-size: 18px;
-  font-weight: 700;
-  color: #1f2937;
-  margin: 0 0 12px 0;
-  line-height: 1.5;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
 }
 
-.reward-description {
-  font-size: 14px;
-  color: #6b7280;
-  margin: 0 0 24px 0;
-  line-height: 1.7;
-}
-
-.reward-requirements {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.requirement-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px;
-  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
-  border-radius: 12px;
-  border: 2px solid #fed7aa;
-  transition: all 0.3s ease;
-}
-
-.requirement-item:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(249, 115, 22, 0.2);
-  border-color: #f97316;
-}
-
-.requirement-icon {
-  font-size: 32px;
-  flex-shrink: 0;
-}
-
-.requirement-details {
+/* Card content */
+.reward-content {
+  padding: 12px 14px 14px;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  flex: 1;
+  gap: 8px;
 }
 
-.requirement-label {
+.reward-category-tag {
   font-size: 11px;
-  color: #6b7280;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.requirement-value {
-  font-size: 16px;
-  color: #1f2937;
   font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 12px;
+  width: fit-content;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
 }
 
+.reward-category-tag.liburan { background: #eff6ff; color: #3b82f6; }
+.reward-category-tag.merchandise { background: #f0fdf4; color: #16a34a; }
+
+.reward-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Requirement chips */
+.reward-chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: #f3f4f6;
+  color: #6b7280;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s;
+}
+
+.chip.chip-ok { background: #dcfce7; color: #16a34a; border-color: #86efac; }
+
+/* Footer */
 .reward-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 20px;
-  border-top: 2px solid #e5e7eb;
+  padding-top: 8px;
+  border-top: 1px solid #f3f4f6;
+  margin-top: auto;
 }
 
-.expiry-info {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+.expiry-text { font-size: 11px; color: #9ca3af; }
 
-.expiry-icon {
-  font-size: 18px;
-}
-
-.expiry-text {
-  font-size: 13px;
-  color: #6b7280;
-  font-weight: 600;
-}
-
-.status-badge {
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-size: 12px;
+.badge-expired {
+  font-size: 11px;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.footer-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  color: #ef4444;
+  background: #fee2e2;
+  padding: 3px 8px;
+  border-radius: 10px;
 }
 
 .btn-tukar {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: linear-gradient(135deg, #10b981, #059669);
   color: white;
   border: none;
-  padding: 10px 24px;
-  border-radius: 25px;
+  padding: 6px 14px;
+  border-radius: 20px;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 12px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  transition: all 0.2s ease;
+  box-shadow: 0 3px 8px rgba(16, 185, 129, 0.3);
+  font-family: inherit;
 }
 
 .btn-tukar:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+  box-shadow: 0 5px 14px rgba(16, 185, 129, 0.4);
 }
 
 .btn-tukar:disabled {
   background: #d1d5db;
-  color: #6b7280;
+  color: #9ca3af;
   cursor: not-allowed;
   box-shadow: none;
   transform: none;
@@ -1020,14 +1255,471 @@ const filteredRewards = computed(() => {
     text-align: center;
   }
 
-  .reward-requirements {
+  .rewards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .rewards-grid {
     grid-template-columns: 1fr;
   }
+}
 
-  .reward-footer {
-    flex-direction: column;
-    gap: 12px;
-    align-items: flex-start;
-  }
+/* ===== CONFIRMATION MODAL ===== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.confirm-modal {
+  background: white;
+  border-radius: 24px;
+  max-width: 460px;
+  width: 100%;
+  box-shadow: 0 32px 64px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  animation: modalSlideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalSlideUp {
+  from { opacity: 0; transform: translateY(40px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0)   scale(1); }
+}
+
+.modal-fade-enter-active,
+.modal-fade-leave-active { transition: opacity 0.25s ease; }
+.modal-fade-enter-from,
+.modal-fade-leave-to { opacity: 0; }
+
+.modal-step { position: relative; }
+
+/* Reward image at top */
+.modal-reward-img {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+}
+.modal-reward-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.modal-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 50%, transparent 100%);
+}
+.modal-poin-pill {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: #f97316;
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
+}
+
+/* Modal close btn */
+.modal-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  z-index: 10;
+  background: rgba(255,255,255,0.85);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.modal-close-btn:hover { background: #fee2e2; color: #dc2626; }
+
+/* Modal body */
+.modal-body {
+  padding: 24px;
+  text-align: center;
+}
+.modal-icon-badge { font-size: 40px; margin-bottom: 8px; }
+.modal-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 8px;
+}
+.modal-reward-name {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0 0 20px;
+  line-height: 1.5;
+}
+
+/* Summary table */
+.modal-summary {
+  background: #f9fafb;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+}
+.summary-label { font-size: 14px; color: #6b7280; }
+.summary-value { font-size: 14px; font-weight: 600; color: #111827; }
+.summary-value.current { color: #10b981; }
+.summary-value.cost     { color: #ef4444; }
+.summary-value.remain   { color: #f97316; font-size: 16px; }
+.summary-divider {
+  border-top: 1.5px dashed #e5e7eb;
+  margin: 8px 0;
+}
+
+.modal-hint {
+  font-size: 12px;
+  color: #9ca3af;
+  margin: 0 0 20px;
+}
+
+/* Action buttons */
+.modal-actions {
+  display: flex;
+  gap: 12px;
+}
+.btn-batal {
+  flex: 1;
+  padding: 12px;
+  border: 1.5px solid #e5e7eb;
+  background: white;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+.btn-batal:hover { background: #f9fafb; border-color: #d1d5db; }
+.btn-konfirmasi {
+  flex: 1;
+  padding: 12px;
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(249, 115, 22, 0.35);
+  font-family: inherit;
+}
+.btn-konfirmasi:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(249, 115, 22, 0.45);
+}
+.btn-konfirmasi:disabled { opacity: 0.65; cursor: not-allowed; }
+
+/* Loading dots */
+.loading-dots span {
+  animation: blink 1.2s infinite;
+}
+.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes blink { 0%, 80%, 100% { opacity: 0; } 40% { opacity: 1; } }
+
+/* Success state */
+.modal-success {
+  padding: 40px 32px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.success-icon {
+  font-size: 72px;
+  animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: block;
+  margin-bottom: 16px;
+}
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.4); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.success-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 12px;
+  letter-spacing: -0.5px;
+}
+.success-desc { font-size: 14px; color: #6b7280; margin: 0 0 8px; }
+.success-reward-name {
+  font-size: 13px;
+  color: #374151;
+  font-weight: 600;
+  margin: 0 0 16px;
+  padding: 10px 14px;
+  background: #f9fafb;
+  border-radius: 10px;
+}
+.success-points-badge {
+  display: inline-block;
+  padding: 10px 24px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border-radius: 20px;
+  font-size: 15px;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+}
+
+/* Confetti */
+.confetti-wrapper {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.confetti-piece {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  top: -20px;
+  left: calc(var(--i) * 8.5%);
+  background: hsl(calc(var(--i) * 30), 80%, 60%);
+  animation: confettiFall calc(1s + var(--i) * 0.1s) ease-in forwards;
+  animation-delay: calc(var(--i) * 0.05s);
+}
+@keyframes confettiFall {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(420px) rotate(540deg); opacity: 0; }
+}
+
+/* ===== TRAVEL MODAL SPECIFICS ===== */
+.travel-modal {
+  max-width: 500px;
+}
+
+.travel-img {
+  height: 240px;
+}
+
+.travel-banner-title {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 30px 20px 16px; /* slightly taller padding for gradient */
+  background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 60%, transparent 100%);
+  color: white;
+  text-align: left;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
+
+.travel-banner-title h3 {
+  font-size: 18px;
+  margin: 0 0 4px;
+  line-height: 1.3;
+  color: #ffffff; /* Explicitly force white */
+}
+
+.travel-banner-title p {
+  font-size: 12px;
+  margin: 0;
+  opacity: 0.9;
+  color: #ffffff; /* Explicitly force white */
+}
+
+.travel-body {
+  padding: 20px 24px 24px;
+}
+
+.travel-desc-box {
+  background: #f8fafc;
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  text-align: left;
+  border-left: 4px solid #3b82f6;
+}
+
+.travel-desc-box p {
+  font-size: 13px;
+  color: #475569;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.claim-items-container {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.claim-section-title {
+  font-size: 14px;
+  color: #111827;
+  margin: 0 0 12px;
+  font-weight: 700;
+}
+
+.claim-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.claim-item:hover:not(.is-disabled) {
+  border-color: #cbd5e1;
+  background: #f8fafc;
+}
+
+.claim-item.is-selected {
+  border-color: #10b981;
+  background: #ecfdf5;
+}
+
+.claim-item.is-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #f1f5f9;
+}
+
+.checkbox-box {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #cbd5e1;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: white;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.checkbox-box.checked {
+  background: #10b981;
+  border-color: #10b981;
+}
+
+.item-info {
+  flex: 1;
+}
+
+.item-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.item-cost {
+  font-size: 13px;
+  font-weight: 700;
+  color: #f97316;
+  background: #fff7ed;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.travel-summary-bar {
+  background: #f1f5f9;
+  padding: 12px 16px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.bar-left {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 2px;
+}
+
+.bar-label {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.bar-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: #10b981;
+}
+
+.bar-value.error {
+  color: #ef4444;
+}
+
+.bar-balance {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.travel-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.travel-actions .btn-batal {
+  flex: 1;
+}
+
+.travel-actions .btn-konfirmasi {
+  flex: 1.5;
+}
+
+.success-claimed-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+  text-align: left;
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.success-claimed-list li {
+  font-size: 14px;
+  color: #10b981;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: flex;
+  gap: 8px;
+}
+
+.success-claimed-list li:last-child {
+  margin-bottom: 0;
 }
 </style>
