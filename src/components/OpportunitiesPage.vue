@@ -186,7 +186,7 @@
           </div>
 
           <div class="modal-actions">
-            <button @click="applyOpportunity" class="btn-apply">
+            <button @click="openApplicationForm" class="btn-apply">
               <span class="btn-icon">✓</span>
               Daftar Sekarang
             </button>
@@ -194,6 +194,52 @@
         </div>
       </div>
     </div>
+
+    <!-- Application Form Modal -->
+    <Transition name="modal-fade">
+      <div v-if="applicationModal.show" class="modal-overlay" @click.self="closeApplicationModal">
+        <div class="modal-content application-modal">
+          
+          <div v-if="!applicationModal.success" class="modal-step">
+            <button class="modal-close" @click="closeApplicationModal">✕</button>
+            <h2 class="modal-title">Konfirmasi Pendaftaran</h2>
+            <p class="modal-subtitle">Anda akan mendaftar sebagai relawan untuk <strong>{{ selectedOpportunity?.title }}</strong>.</p>
+            
+            <div class="form-group">
+              <label>Mengapa Anda tertarik mengikuti acara ini? <span class="required">*</span></label>
+              <textarea 
+                v-model="applicationModal.reason" 
+                class="form-textarea" 
+                rows="4" 
+                placeholder="Tuliskan motivasi atau alasan singkat Anda..."
+                required
+              ></textarea>
+            </div>
+
+            <div class="modal-actions-row">
+              <button class="btn-cancel" @click="closeApplicationModal">Batal</button>
+              <button class="btn-submit" @click="submitApplication" :disabled="!applicationModal.reason.trim() || applicationModal.loading">
+                <span v-if="!applicationModal.loading">Kirim Pendaftaran</span>
+                <span v-else class="loading-dots">Mengirim<span>.</span><span>.</span><span>.</span></span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Application Success -->
+          <div v-else class="modal-step modal-success">
+            <div class="confetti-wrapper">
+              <span v-for="i in 12" :key="i" class="confetti-piece" :style="{ '--i': i }"></span>
+            </div>
+            <div class="success-icon">🎉</div>
+            <h3 class="success-title">Pendaftaran Berhasil!</h3>
+            <p class="success-desc">Terima kasih atas semangat Anda. Kami sedang meninjau pendaftaran Anda untuk campaign:</p>
+            <p class="success-campaign-name">{{ selectedOpportunity?.title }}</p>
+            <button class="btn-submit btn-done" @click="finishApplication">Selesai</button>
+          </div>
+
+        </div>
+      </div>
+    </Transition>
   </div>
 </template>
 
@@ -366,8 +412,35 @@ const closeModal = () => {
   selectedOpportunity.value = null
 }
 
-const applyOpportunity = () => {
-  alert(`Anda telah mendaftar untuk: ${selectedOpportunity.value.title}`)
+// --- Application Logic ---
+const applicationModal = ref({
+  show: false,
+  reason: '',
+  loading: false,
+  success: false
+})
+
+const openApplicationForm = () => {
+  applicationModal.value = { show: true, reason: '', loading: false, success: false }
+}
+
+const closeApplicationModal = () => {
+  if (applicationModal.value.loading) return
+  applicationModal.value.show = false
+}
+
+const submitApplication = async () => {
+  if (!applicationModal.value.reason.trim()) return
+
+  applicationModal.value.loading = true
+  // simulate network request
+  await new Promise(resolve => setTimeout(resolve, 1500))
+  applicationModal.value.loading = false
+  applicationModal.value.success = true
+}
+
+const finishApplication = () => {
+  closeApplicationModal()
   closeModal()
 }
 </script>
@@ -1024,4 +1097,183 @@ const applyOpportunity = () => {
     font-size: 20px;
   }
 }
+
+/* ===== APPLICATION MODAL ===== */
+.application-modal {
+  max-width: 500px;
+  padding: 32px;
+  background: #ffffff;
+}
+
+.modal-subtitle {
+  font-size: 15px;
+  color: #4b5563;
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+  margin-bottom: 28px;
+}
+
+.form-group label {
+  font-size: 15px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.required {
+  color: #ef4444;
+  margin-left: 2px;
+}
+
+.form-textarea {
+  padding: 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.3s ease;
+  resize: vertical;
+  min-height: 120px;
+  background: #f9fafb;
+}
+
+.form-textarea:focus {
+  background: #ffffff;
+  border-color: #f97316;
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1);
+}
+
+.modal-actions-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 20px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.btn-cancel {
+  padding: 10px 20px;
+  background: white;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #4b5563;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-cancel:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+}
+
+.btn-submit {
+  flex: 1;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+}
+
+.btn-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(249, 115, 22, 0.4);
+}
+
+.btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-done {
+  width: 100%;
+  margin-top: 24px;
+}
+
+/* Success State styling */
+.modal-success {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.success-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+  animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.success-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.success-desc {
+  font-size: 15px;
+  color: #4b5563;
+  margin-bottom: 12px;
+}
+
+.success-campaign-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #f97316;
+  padding: 12px;
+  background: #fff7ed;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+/* Confetti implementation */
+.confetti-wrapper {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+.confetti-piece {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  top: -20px;
+  left: calc(var(--i) * 8.5%);
+  background: hsl(calc(var(--i) * 30), 80%, 60%);
+  animation: confettiFall calc(1s + var(--i) * 0.1s) ease-in forwards;
+  animation-delay: calc(var(--i) * 0.05s);
+}
+@keyframes confettiFall {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(420px) rotate(540deg); opacity: 0; }
+}
+
+/* Loading Dots */
+.loading-dots span {
+  animation: blink 1.4s infinite cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
 </style>
