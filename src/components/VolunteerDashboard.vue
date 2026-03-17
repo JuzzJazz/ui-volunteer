@@ -4,9 +4,22 @@
     <div class="dashboard-header">
       <div class="header-left">
         <h1 class="dashboard-title">Akun Relawan Saya</h1>
+        <p class="dashboard-subtitle">Selamat datang kembali! Semangat terus ya 🙌</p>
       </div>
       <div class="header-right">
-        <button class="btn-create-campaign">BUAT CAMPAIGN</button>
+        <div class="header-user-chip">
+          <div class="header-avatar">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </div>
+          <div class="header-user-info">
+            <span class="header-username">Hana Volunteer</span>
+            <span class="header-badge">🌟 Aktif</span>
+          </div>
+        </div>
+        <button class="btn-create-campaign">+ BUAT CAMPAIGN</button>
       </div>
     </div>
 
@@ -29,7 +42,8 @@
               <span class="dropdown-icon" :class="{ open: expandedSections.profil }">▼</span>
             </div>
             <div v-show="expandedSections.profil" class="nav-submenu">
-              <div class="nav-subitem" :class="{ active: activeSection === 'profil-akun' }" @click="activeSection = 'profil-akun'">
+              <div class="nav-subitem" :class="{ active: activeSection === 'profil-akun' }"
+                @click="activeSection = 'profil-akun'">
                 Profil Akun
               </div>
               <div class="nav-subitem" @click="activeSection = 'ganti-kata-sandi'">
@@ -109,69 +123,77 @@
       <main class="main-content">
         <!-- Profile Page -->
         <ProfilePage v-if="activeSection === 'profil-akun'" />
-        
+
         <!-- Change Password Page -->
         <ChangePasswordPage v-else-if="activeSection === 'ganti-kata-sandi'" />
-        
+
         <!-- My Campaign Page -->
         <MyCampaignPage v-else-if="activeSection === 'campaign'" />
-        
+
         <!-- History Page -->
         <HistoryPage v-else-if="activeSection === 'riwayat'" />
-        
+
         <!-- Points & Badge Page -->
         <PointsBadgePage v-else-if="activeSection === 'poin-badge'" />
-        
+
         <!-- Write Story Page -->
         <WriteStoryPage v-else-if="activeSection === 'tulis-cerita'" />
-        
+
         <!-- Opportunities Page -->
         <OpportunitiesPage v-else-if="activeSection === 'peluang-relawan'" />
-        
+
         <!-- Events Page -->
         <EventsPage v-else-if="activeSection === 'acara-relawan'" />
-        
+
         <!-- Certificates Page -->
         <CertificatesPage v-else-if="activeSection === 'sertifikat'" />
-        
+
         <!-- Admin Validation Page -->
         <AdminValidationPage v-else-if="activeSection === 'admin-pov'" />
-        
+
         <!-- Admin Rewards Page -->
         <AdminRewardsPage v-else-if="activeSection === 'kelola-rewards'" />
-        
+
         <!-- Summary Card -->
         <div v-else-if="activeSection === 'ringkasan'" class="summary-card">
-          <h2 class="summary-title">Hana Ringkasan Relawan</h2>
+          <div class="summary-header">
+            <h2 class="summary-title">📊 Ringkasan Aktivitas Relawan</h2>
+            <span class="summary-period">2025 – Sekarang</span>
+          </div>
           <div class="summary-stats">
             <div class="stat-item">
               <div class="stat-icon days">⏱️</div>
               <div class="stat-info">
-                <div class="stat-value">0 Hari</div>
+                <div class="stat-value">0</div>
+                <div class="stat-desc">Hari Aktif</div>
               </div>
             </div>
             <div class="stat-item">
               <div class="stat-icon events">🎪</div>
               <div class="stat-info">
-                <div class="stat-value">1 Acara</div>
+                <div class="stat-value">1</div>
+                <div class="stat-desc">Acara Diikuti</div>
               </div>
             </div>
             <div class="stat-item">
               <div class="stat-icon points">❤️</div>
               <div class="stat-info">
-                <div class="stat-value">0 Poin</div>
+                <div class="stat-value">0</div>
+                <div class="stat-desc">Poin Terkumpul</div>
               </div>
             </div>
             <div class="stat-item">
               <div class="stat-icon badges">🏆</div>
               <div class="stat-info">
-                <div class="stat-value">0 Badge</div>
+                <div class="stat-value">0</div>
+                <div class="stat-desc">Badge Diraih</div>
               </div>
             </div>
             <div class="stat-item">
               <div class="stat-icon campaigns">📢</div>
               <div class="stat-info">
-                <div class="stat-value">0 Kampanye</div>
+                <div class="stat-value">0</div>
+                <div class="stat-desc">Kampanye</div>
               </div>
             </div>
           </div>
@@ -233,26 +255,23 @@
     <Transition name="modal-fade">
       <div v-if="applicationModal.show" class="modal-overlay" @click.self="closeApplicationModal">
         <div class="modal-content application-modal">
-          
+
           <div v-if="!applicationModal.success" class="modal-step">
             <button class="modal-close" @click="closeApplicationModal">✕</button>
             <h2 class="modal-title">Konfirmasi Pendaftaran</h2>
-            <p class="modal-subtitle">Anda akan mendaftar sebagai relawan untuk <strong>{{ selectedOpportunity?.title }}</strong>.</p>
-            
+            <p class="modal-subtitle">Anda akan mendaftar sebagai relawan untuk <strong>{{ selectedOpportunity?.title
+                }}</strong>.</p>
+
             <div class="form-group">
               <label>Mengapa Anda tertarik mengikuti acara ini? <span class="required">*</span></label>
-              <textarea 
-                v-model="applicationModal.reason" 
-                class="form-textarea" 
-                rows="4" 
-                placeholder="Tuliskan motivasi atau alasan singkat Anda..."
-                required
-              ></textarea>
+              <textarea v-model="applicationModal.reason" class="form-textarea" rows="4"
+                placeholder="Tuliskan motivasi atau alasan singkat Anda..." required></textarea>
             </div>
 
             <div class="modal-actions-row">
               <button class="btn-cancel" @click="closeApplicationModal">Batal</button>
-              <button class="btn-submit" @click="submitApplication" :disabled="!applicationModal.reason.trim() || applicationModal.loading">
+              <button class="btn-submit" @click="submitApplication"
+                :disabled="!applicationModal.reason.trim() || applicationModal.loading">
                 <span v-if="!applicationModal.loading">Kirim Pendaftaran</span>
                 <span v-else class="loading-dots">Mengirim<span>.</span><span>.</span><span>.</span></span>
               </button>
@@ -266,7 +285,8 @@
             </div>
             <div class="success-icon">🎉</div>
             <h3 class="success-title">Pendaftaran Berhasil!</h3>
-            <p class="success-desc">Terima kasih atas semangat Anda. Kami sedang meninjau pendaftaran Anda untuk campaign:</p>
+            <p class="success-desc">Terima kasih atas semangat Anda. Kami sedang meninjau pendaftaran Anda untuk
+              campaign:</p>
             <p class="success-campaign-name">{{ selectedOpportunity?.title }}</p>
             <button class="btn-submit btn-done" @click="closeApplicationModal">Selesai</button>
           </div>
@@ -396,12 +416,38 @@ const nextPage = () => {
 
 /* Header */
 .dashboard-header {
-  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 60%, #dc4a09 100%);
   padding: 24px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 4px 20px rgba(249, 115, 22, 0.3);
+  box-shadow: 0 4px 24px rgba(249, 115, 22, 0.35);
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-header::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 200px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.dashboard-header::after {
+  content: '';
+  position: absolute;
+  bottom: -40px;
+  right: 200px;
+  width: 120px;
+  height: 120px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  pointer-events: none;
 }
 
 .dashboard-title {
@@ -411,24 +457,82 @@ const nextPage = () => {
   letter-spacing: -0.5px;
 }
 
+.dashboard-subtitle {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 14px;
+  margin-top: 4px;
+  font-weight: 400;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.header-user-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50px;
+  padding: 8px 16px 8px 8px;
+  backdrop-filter: blur(8px);
+}
+
+.header-avatar {
+  width: 36px;
+  height: 36px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f97316;
+  flex-shrink: 0;
+}
+
+.header-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.header-username {
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+  line-height: 1;
+}
+
+.header-badge {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1;
+}
+
 .btn-create-campaign {
   background: white;
   color: #f97316;
   border: 2px solid white;
-  padding: 12px 28px;
+  padding: 12px 24px;
   border-radius: 25px;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 13px;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.25);
   transition: all 0.3s ease;
   letter-spacing: 0.5px;
+  white-space: nowrap;
 }
 
 .btn-create-campaign:hover {
   transform: translateY(-2px);
   background: #fff7ed;
-  box-shadow: 0 6px 25px rgba(255, 255, 255, 0.5);
+  box-shadow: 0 6px 25px rgba(255, 255, 255, 0.45);
 }
 
 /* Layout */
@@ -565,43 +669,71 @@ const nextPage = () => {
 
 /* Summary Card */
 .summary-card {
-  background: rgba(255, 255, 255, 0.85); /* Glassmorphism base */
+  background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(12px);
   border-radius: 20px;
   padding: 32px;
   box-shadow: var(--shadow-xl);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .summary-title {
   font-size: 20px;
   font-weight: 700;
   color: var(--gray-800);
-  margin-bottom: 24px;
+}
+
+.summary-period {
+  font-size: 12px;
+  font-weight: 600;
+  color: #f97316;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 20px;
+  padding: 4px 14px;
 }
 
 .summary-stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
 }
 
 .stat-item {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 20px;
-  border-radius: 12px;
+  gap: 14px;
+  padding: 18px 16px;
+  border-radius: 14px;
   background: white;
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--gray-100);
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: default;
 }
 
 .stat-item:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px) scale(1.02);
   box-shadow: var(--shadow-md);
   border-color: var(--primary-100);
+}
+
+.stat-desc {
+  font-size: 11px;
+  color: var(--gray-500);
+  font-weight: 500;
+  margin-top: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
 }
 
 .stat-icon {
@@ -868,8 +1000,18 @@ const nextPage = () => {
 @media (max-width: 768px) {
   .dashboard-header {
     flex-direction: column;
+    align-items: flex-start;
     gap: 16px;
     padding: 20px;
+  }
+
+  .header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .header-user-chip {
+    flex: 1;
   }
 
   .dashboard-layout {
@@ -877,7 +1019,7 @@ const nextPage = () => {
   }
 
   .summary-stats {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .opportunities-grid {
@@ -916,8 +1058,15 @@ const nextPage = () => {
 }
 
 @keyframes modalPop {
-  from { opacity: 0; transform: scale(0.95) translateY(10px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 .modal-close {
@@ -1062,9 +1211,17 @@ const nextPage = () => {
 }
 
 @keyframes bounceIn {
-  0% { transform: scale(0); }
-  50% { transform: scale(1.2); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(0);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .success-title {
@@ -1098,6 +1255,7 @@ const nextPage = () => {
   overflow: hidden;
   z-index: 0;
 }
+
 .confetti-piece {
   position: absolute;
   width: 10px;
@@ -1108,15 +1266,24 @@ const nextPage = () => {
   animation: confettiFall calc(1s + var(--i) * 0.1s) ease-in forwards;
   animation-delay: calc(var(--i) * 0.05s);
 }
+
 @keyframes confettiFall {
-  0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
-  100% { transform: translateY(420px) rotate(540deg); opacity: 0; }
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(420px) rotate(540deg);
+    opacity: 0;
+  }
 }
 
 .modal-fade-enter-active,
 .modal-fade-leave-active {
   transition: opacity 0.3s ease;
 }
+
 .modal-fade-enter-from,
 .modal-fade-leave-to {
   opacity: 0;
@@ -1126,6 +1293,12 @@ const nextPage = () => {
 .loading-dots span {
   animation: blink 1.4s infinite cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
-.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+.loading-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
 </style>

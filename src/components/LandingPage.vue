@@ -1,13 +1,13 @@
 <template>
   <div class="landing-page">
     <!-- Navigation -->
-    <nav class="navbar">
+    <nav class="navbar" :class="{ scrolled: isScrolled }">
       <div class="nav-container">
         <div class="logo">
           <img src="/logo.svg" alt="Wahaha Misii Indonesia" class="logo-img">
           <span class="logo-text">Wahaha Misii<br><span class="indonesia">INDONESIA</span></span>
         </div>
-        
+
         <div class="nav-links">
           <a href="#" class="nav-link">Sponsor Anak</a>
           <a href="#" class="nav-link">Donasi</a>
@@ -24,14 +24,14 @@
           <button class="lang-btn">Bahasa</button>
           <button class="search-btn">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="11" cy="11" r="8"/>
-              <path d="M21 21l-4.35-4.35"/>
+              <circle cx="11" cy="11" r="8" />
+              <path d="M21 21l-4.35-4.35" />
             </svg>
           </button>
           <button class="user-btn" @click="goToRegister">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-              <circle cx="12" cy="7" r="4"/>
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
             </svg>
           </button>
           <button class="dashboard-btn" @click="goToDashboard">
@@ -39,15 +39,48 @@
           </button>
           <button class="cart-btn">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="9" cy="21" r="1"/>
-              <circle cx="20" cy="21" r="1"/>
-              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+              <circle cx="9" cy="21" r="1" />
+              <circle cx="20" cy="21" r="1" />
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
             </svg>
             <span class="cart-badge">0</span>
+          </button>
+          <button class="mobile-menu-btn" @click="mobileMenuOpen = !mobileMenuOpen"
+            :aria-label="mobileMenuOpen ? 'Close menu' : 'Open menu'">
+            <svg v-if="!mobileMenuOpen" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2">
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+            <svg v-else width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
           </button>
         </div>
       </div>
     </nav>
+
+    <!-- Mobile Menu -->
+    <Transition name="mobile-menu">
+      <div v-if="mobileMenuOpen" class="mobile-menu-overlay" @click.self="mobileMenuOpen = false">
+        <div class="mobile-menu-panel">
+          <div class="mobile-menu-logo">
+            <span style="font-weight:800;font-size:1.1rem;color:#1f2937;">Wahaha Misii <span
+                style="color:#f97316;">INDONESIA</span></span>
+          </div>
+          <a href="#" class="mobile-nav-link" @click="mobileMenuOpen = false">Sponsor Anak</a>
+          <a href="#" class="mobile-nav-link" @click="mobileMenuOpen = false">Donasi</a>
+          <a href="#" class="mobile-nav-link" @click="mobileMenuOpen = false">Bermitra dengan WHI</a>
+          <a href="#" class="mobile-nav-link" @click="mobileMenuOpen = false">Tentang WHI</a>
+          <a href="#" class="mobile-nav-link" @click="mobileMenuOpen = false">Media &amp; Publikasi</a>
+          <a href="#" class="mobile-nav-link" @click="mobileMenuOpen = false">Kontak kami</a>
+          <a href="#" class="mobile-nav-link" @click="mobileMenuOpen = false">Ayo Terlibat</a>
+          <button class="mobile-cta-btn" @click="goToRegister(); mobileMenuOpen = false">Join Us Here</button>
+        </div>
+      </div>
+    </Transition>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -67,6 +100,28 @@
       </div>
     </section>
 
+    <!-- Stats Section -->
+    <section class="stats-section">
+      <div class="stats-container">
+        <div class="hero-stat-item">
+          <div class="hero-stat-number">{{ formatNumber(counters.volunteers) }}+</div>
+          <div class="hero-stat-label">Relawan Aktif</div>
+        </div>
+        <div class="hero-stat-item">
+          <div class="hero-stat-number">{{ counters.events }}+</div>
+          <div class="hero-stat-label">Acara Sukses</div>
+        </div>
+        <div class="hero-stat-item">
+          <div class="hero-stat-number">{{ formatNumber(counters.hours) }}+</div>
+          <div class="hero-stat-label">Jam Volunteer</div>
+        </div>
+        <div class="hero-stat-item">
+          <div class="hero-stat-number">{{ counters.communities }}+</div>
+          <div class="hero-stat-label">Komunitas Terjangkau</div>
+        </div>
+      </div>
+    </section>
+
     <!-- Volunteer Section -->
     <section class="volunteer-section" id="volunteer">
       <div class="section-container">
@@ -75,13 +130,13 @@
           <h2 class="section-title">ToGether, To Other, To Be Better</h2>
           <button class="btn-read-more">Read More</button>
         </div>
-        
+
         <div class="section-content">
           <p class="section-text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut 
-            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
-            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in 
-            voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non 
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+            voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
             proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
           </p>
         </div>
@@ -100,17 +155,20 @@
           <div class="step-card">
             <div class="step-icon">
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="8" r="3" fill="#F97316"/>
-                <path d="M12 14c-4 0-7 2-7 4v2h14v-2c0-2-3-4-7-4z" fill="#F97316"/>
-                <rect x="16" y="16" width="4" height="4" rx="1" fill="#FB923C"/>
+                <circle cx="12" cy="8" r="3" fill="#F97316" />
+                <path d="M12 14c-4 0-7 2-7 4v2h14v-2c0-2-3-4-7-4z" fill="#F97316" />
+                <rect x="16" y="16" width="4" height="4" rx="1" fill="#FB923C" />
               </svg>
             </div>
             <h3 class="step-title">Be a volunteer</h3>
             <p class="step-description">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea 
-              commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
-              pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est 
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+              ea
+              commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla
+              pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
+              id est
               laborum.
             </p>
           </div>
@@ -118,17 +176,20 @@
           <div class="step-card">
             <div class="step-icon">
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="8" r="3" fill="#F97316"/>
-                <path d="M12 14c-4 0-7 2-7 4v2h14v-2c0-2-3-4-7-4z" fill="#F97316"/>
-                <rect x="16" y="16" width="4" height="4" rx="1" fill="#FB923C"/>
+                <circle cx="12" cy="8" r="3" fill="#F97316" />
+                <path d="M12 14c-4 0-7 2-7 4v2h14v-2c0-2-3-4-7-4z" fill="#F97316" />
+                <rect x="16" y="16" width="4" height="4" rx="1" fill="#FB923C" />
               </svg>
             </div>
             <h3 class="step-title">Get and collect</h3>
             <p class="step-description">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea 
-              commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
-              pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est 
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+              ea
+              commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla
+              pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
+              id est
               laborum.
             </p>
           </div>
@@ -136,17 +197,20 @@
           <div class="step-card">
             <div class="step-icon">
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="8" r="3" fill="#F97316"/>
-                <path d="M12 14c-4 0-7 2-7 4v2h14v-2c0-2-3-4-7-4z" fill="#F97316"/>
-                <rect x="16" y="16" width="4" height="4" rx="1" fill="#FB923C"/>
+                <circle cx="12" cy="8" r="3" fill="#F97316" />
+                <path d="M12 14c-4 0-7 2-7 4v2h14v-2c0-2-3-4-7-4z" fill="#F97316" />
+                <rect x="16" y="16" width="4" height="4" rx="1" fill="#FB923C" />
               </svg>
             </div>
             <h3 class="step-title">Exchange your points</h3>
             <p class="step-description">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea 
-              commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
-              pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est 
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+              ea
+              commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla
+              pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
+              id est
               laborum.
             </p>
           </div>
@@ -154,17 +218,20 @@
           <div class="step-card">
             <div class="step-icon">
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="8" r="3" fill="#F97316"/>
-                <path d="M12 14c-4 0-7 2-7 4v2h14v-2c0-2-3-4-7-4z" fill="#F97316"/>
-                <rect x="16" y="16" width="4" height="4" rx="1" fill="#FB923C"/>
+                <circle cx="12" cy="8" r="3" fill="#F97316" />
+                <path d="M12 14c-4 0-7 2-7 4v2h14v-2c0-2-3-4-7-4z" fill="#F97316" />
+                <rect x="16" y="16" width="4" height="4" rx="1" fill="#FB923C" />
               </svg>
             </div>
             <h3 class="step-title">Gas</h3>
             <p class="step-description">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea 
-              commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
-              pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est 
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+              ea
+              commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla
+              pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
+              id est
               laborum.
             </p>
           </div>
@@ -187,7 +254,8 @@
               <div class="program-overlay">
                 <h3 class="program-card-title">Volunteer: KinOir Field</h3>
                 <p class="program-card-desc">
-                  Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus ...
+                  Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque
+                  sem placerat. In id cursus ...
                 </p>
               </div>
             </div>
@@ -199,7 +267,8 @@
               <div class="program-overlay">
                 <h3 class="program-card-title">Volunteer: Event</h3>
                 <p class="program-card-desc">
-                  Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus ...
+                  Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque
+                  sem placerat. In id cursus ...
                 </p>
               </div>
             </div>
@@ -211,7 +280,8 @@
               <div class="program-overlay">
                 <h3 class="program-card-title">Volunteer: Skills Based</h3>
                 <p class="program-card-desc">
-                  Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus ...
+                  Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque
+                  sem placerat. In id cursus ...
                 </p>
               </div>
             </div>
@@ -279,7 +349,12 @@
           <span class="qna-tag">Campaign</span>
           <h2 class="qna-title">ini section Q&A</h2>
           <p class="qna-description">
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+            industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+            scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into
+            electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
+            Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like
+            Aldus PageMaker including versions of Lorem Ipsum.
           </p>
         </div>
 
@@ -288,20 +363,23 @@
             <div class="accordion-item" :class="{ active: activeAccordion === 0 }">
               <button class="accordion-header" @click="toggleAccordion(0)">
                 <span>Cara mendaftar</span>
-                <svg class="accordion-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polyline points="6 9 12 15 18 9"/>
+                <svg class="accordion-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2">
+                  <polyline points="6 9 12 15 18 9" />
                 </svg>
               </button>
               <div class="accordion-content">
-                <p>Untuk mendaftar sebagai relawan KinCir, silakan klik tombol "Join Us Here" dan isi formulir pendaftaran yang tersedia. Pastikan semua data yang diisi sudah benar dan lengkap.</p>
+                <p>Untuk mendaftar sebagai relawan KinCir, silakan klik tombol "Join Us Here" dan isi formulir
+                  pendaftaran yang tersedia. Pastikan semua data yang diisi sudah benar dan lengkap.</p>
               </div>
             </div>
 
             <div class="accordion-item" :class="{ active: activeAccordion === 1 }">
               <button class="accordion-header" @click="toggleAccordion(1)">
                 <span>Benefit</span>
-                <svg class="accordion-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polyline points="6 9 12 15 18 9"/>
+                <svg class="accordion-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2">
+                  <polyline points="6 9 12 15 18 9" />
                 </svg>
               </button>
               <div class="accordion-content">
@@ -312,12 +390,14 @@
             <div class="accordion-item" :class="{ active: activeAccordion === 2 }">
               <button class="accordion-header" @click="toggleAccordion(2)">
                 <span>Syarat & Ketentuan</span>
-                <svg class="accordion-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polyline points="6 9 12 15 18 9"/>
+                <svg class="accordion-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2">
+                  <polyline points="6 9 12 15 18 9" />
                 </svg>
               </button>
               <div class="accordion-content">
-                <p>Syarat dan ketentuan menjadi relawan akan dijelaskan disini. Pastikan Anda membaca dengan teliti sebelum mendaftar.</p>
+                <p>Syarat dan ketentuan menjadi relawan akan dijelaskan disini. Pastikan Anda membaca dengan teliti
+                  sebelum mendaftar.</p>
               </div>
             </div>
           </div>
@@ -341,72 +421,86 @@
           <div class="faq-item" :class="{ active: activeFaq === 0 }">
             <button class="faq-question" @click="toggleFaq(0)">
               <span>Bagaimana cara mendaftar menjadi volunteer?</span>
-              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="6 9 12 15 18 9"/>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <polyline points="6 9 12 15 18 9" />
               </svg>
             </button>
             <div class="faq-answer">
-              <p>Anda dapat mendaftar dengan mengklik tombol "Join Us Here" di halaman utama dan mengisi formulir pendaftaran yang tersedia. Pastikan semua data yang Anda masukkan sudah benar dan lengkap.</p>
+              <p>Anda dapat mendaftar dengan mengklik tombol "Join Us Here" di halaman utama dan mengisi formulir
+                pendaftaran yang tersedia. Pastikan semua data yang Anda masukkan sudah benar dan lengkap.</p>
             </div>
           </div>
 
           <div class="faq-item" :class="{ active: activeFaq === 1 }">
             <button class="faq-question" @click="toggleFaq(1)">
               <span>Apa saja persyaratan untuk menjadi volunteer?</span>
-              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="6 9 12 15 18 9"/>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <polyline points="6 9 12 15 18 9" />
               </svg>
             </button>
             <div class="faq-answer">
-              <p>Persyaratan dasar meliputi: berusia minimal 17 tahun, memiliki komitmen untuk berkontribusi, memiliki kemampuan komunikasi yang baik, dan bersedia mengikuti pelatihan yang diberikan.</p>
+              <p>Persyaratan dasar meliputi: berusia minimal 17 tahun, memiliki komitmen untuk berkontribusi, memiliki
+                kemampuan komunikasi yang baik, dan bersedia mengikuti pelatihan yang diberikan.</p>
             </div>
           </div>
 
           <div class="faq-item" :class="{ active: activeFaq === 2 }">
             <button class="faq-question" @click="toggleFaq(2)">
               <span>Berapa lama komitmen waktu yang diperlukan?</span>
-              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="6 9 12 15 18 9"/>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <polyline points="6 9 12 15 18 9" />
               </svg>
             </button>
             <div class="faq-answer">
-              <p>Komitmen waktu bervariasi tergantung program yang Anda ikuti. Minimal komitmen adalah 4 jam per minggu untuk program regular, atau sesuai kebutuhan untuk program khusus dan event tertentu.</p>
+              <p>Komitmen waktu bervariasi tergantung program yang Anda ikuti. Minimal komitmen adalah 4 jam per minggu
+                untuk program regular, atau sesuai kebutuhan untuk program khusus dan event tertentu.</p>
             </div>
           </div>
 
           <div class="faq-item" :class="{ active: activeFaq === 3 }">
             <button class="faq-question" @click="toggleFaq(3)">
               <span>Apakah ada biaya untuk menjadi volunteer?</span>
-              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="6 9 12 15 18 9"/>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <polyline points="6 9 12 15 18 9" />
               </svg>
             </button>
             <div class="faq-answer">
-              <p>Tidak ada biaya pendaftaran untuk menjadi volunteer KinCir. Semua program volunteer kami gratis dan terbuka untuk siapa saja yang memiliki dedikasi untuk membantu sesama.</p>
+              <p>Tidak ada biaya pendaftaran untuk menjadi volunteer KinCir. Semua program volunteer kami gratis dan
+                terbuka untuk siapa saja yang memiliki dedikasi untuk membantu sesama.</p>
             </div>
           </div>
 
           <div class="faq-item" :class="{ active: activeFaq === 4 }">
             <button class="faq-question" @click="toggleFaq(4)">
               <span>Benefit apa yang didapatkan sebagai volunteer?</span>
-              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="6 9 12 15 18 9"/>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <polyline points="6 9 12 15 18 9" />
               </svg>
             </button>
             <div class="faq-answer">
-              <p>Sebagai volunteer, Anda akan mendapatkan: sertifikat volunteer, pelatihan gratis, pengalaman berharga, kesempatan networking, points yang dapat ditukar dengan merchandise, dan kepuasan batin dari membantu sesama.</p>
+              <p>Sebagai volunteer, Anda akan mendapatkan: sertifikat volunteer, pelatihan gratis, pengalaman berharga,
+                kesempatan networking, points yang dapat ditukar dengan merchandise, dan kepuasan batin dari membantu
+                sesama.</p>
             </div>
           </div>
 
           <div class="faq-item" :class="{ active: activeFaq === 5 }">
             <button class="faq-question" @click="toggleFaq(5)">
               <span>Bagaimana sistem points bekerja?</span>
-              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="6 9 12 15 18 9"/>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <polyline points="6 9 12 15 18 9" />
               </svg>
             </button>
             <div class="faq-answer">
-              <p>Setiap aktivitas volunteer akan mendapatkan points. Points dapat dikumpulkan dan ditukarkan dengan merchandise eksklusif Wahaha Misii Indonesia atau digunakan untuk mengikuti program pelatihan premium.</p>
+              <p>Setiap aktivitas volunteer akan mendapatkan points. Points dapat dikumpulkan dan ditukarkan dengan
+                merchandise eksklusif Wahaha Misii Indonesia atau digunakan untuk mengikuti program pelatihan premium.
+              </p>
             </div>
           </div>
         </div>
@@ -432,24 +526,24 @@
               <div class="activity-meta">
                 <div class="activity-meta-item">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                    <line x1="16" y1="2" x2="16" y2="6"/>
-                    <line x1="8" y1="2" x2="8" y2="6"/>
-                    <line x1="3" y1="10" x2="21" y2="10"/>
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
                   </svg>
                   <span>8 Oktober 2025 - 31 Oktober 2025</span>
                 </div>
                 <div class="activity-meta-item">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                    <circle cx="12" cy="10" r="3"/>
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                    <circle cx="12" cy="10" r="3" />
                   </svg>
                   <span>alamat untuk indonesia</span>
                 </div>
                 <div class="activity-meta-item">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"/>
-                    <path d="M12 6v6l4 2"/>
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 6v6l4 2" />
                   </svg>
                   <span>10 Poin</span>
                 </div>
@@ -468,24 +562,24 @@
               <div class="activity-meta">
                 <div class="activity-meta-item">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                    <line x1="16" y1="2" x2="16" y2="6"/>
-                    <line x1="8" y1="2" x2="8" y2="6"/>
-                    <line x1="3" y1="10" x2="21" y2="10"/>
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
                   </svg>
                   <span>4 September 2025 - 10 September 2025</span>
                 </div>
                 <div class="activity-meta-item">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                    <circle cx="12" cy="10" r="3"/>
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                    <circle cx="12" cy="10" r="3" />
                   </svg>
                   <span>Alamat Sibuk</span>
                 </div>
                 <div class="activity-meta-item">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"/>
-                    <path d="M12 6v6l4 2"/>
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 6v6l4 2" />
                   </svg>
                   <span>10 Poin</span>
                 </div>
@@ -504,24 +598,24 @@
               <div class="activity-meta">
                 <div class="activity-meta-item">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                    <line x1="16" y1="2" x2="16" y2="6"/>
-                    <line x1="8" y1="2" x2="8" y2="6"/>
-                    <line x1="3" y1="10" x2="21" y2="10"/>
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
                   </svg>
                   <span>27 Juli 2025 - 29 Juli 2025</span>
                 </div>
                 <div class="activity-meta-item">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                    <circle cx="12" cy="10" r="3"/>
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                    <circle cx="12" cy="10" r="3" />
                   </svg>
                   <span>Jalan jalan dan jalan jalan jalan</span>
                 </div>
                 <div class="activity-meta-item">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"/>
-                    <path d="M12 6v6l4 2"/>
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 6v6l4 2" />
                   </svg>
                   <span>199 Poin</span>
                 </div>
@@ -539,10 +633,10 @@
         <div class="feature-card">
           <div class="feature-icon">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-              <circle cx="9" cy="7" r="4"/>
-              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
             </svg>
           </div>
           <h3 class="feature-title">Komunitas Positif</h3>
@@ -552,9 +646,9 @@
         <div class="feature-card">
           <div class="feature-icon">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-              <path d="M2 17l10 5 10-5"/>
-              <path d="M2 12l10 5 10-5"/>
+              <path d="M12 2L2 7l10 5 10-5-10-5z" />
+              <path d="M2 17l10 5 10-5" />
+              <path d="M2 12l10 5 10-5" />
             </svg>
           </div>
           <h3 class="feature-title">Pelatihan & Pengembangan</h3>
@@ -564,8 +658,8 @@
         <div class="feature-card">
           <div class="feature-icon">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-              <polyline points="22 4 12 14.01 9 11.01"/>
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+              <polyline points="22 4 12 14.01 9 11.01" />
             </svg>
           </div>
           <h3 class="feature-title">Dampak Nyata</h3>
@@ -613,38 +707,85 @@
             <div class="social-links">
               <a href="#" class="social-link">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                  <path
+                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                 </svg>
               </a>
               <a href="#" class="social-link">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                  <path
+                    d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
                 </svg>
               </a>
               <a href="#" class="social-link">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"/>
+                  <path
+                    d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z" />
                 </svg>
               </a>
             </div>
           </div>
         </div>
-        
+
         <div class="footer-bottom">
           <p>&copy; 2025 Wahaha Misii Indonesia. All rights reserved.</p>
         </div>
       </div>
     </footer>
+
+    <!-- Scroll to Top -->
+    <Transition name="fade-up">
+      <button v-if="showScrollTop" class="scroll-top-btn" @click="scrollToTop" aria-label="Scroll to top">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="18 15 12 9 6 15" />
+        </svg>
+      </button>
+    </Transition>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const activeAccordion = ref(1) // Default 'Benefit' is open
-const activeFaq = ref(null) // FAQ section - none open by default
+const activeAccordion = ref(1)
+const activeFaq = ref(null)
+const isScrolled = ref(false)
+const mobileMenuOpen = ref(false)
+const showScrollTop = ref(false)
+
+// Animated counters
+const counters = ref({ volunteers: 0, events: 0, hours: 0, communities: 0 })
+const counterTargets = { volunteers: 1200, events: 86, hours: 15000, communities: 34 }
+let counterAnimated = false
+
+const formatNumber = (n) => n >= 1000 ? (n / 1000).toFixed(1) + 'K' : String(n)
+
+const animateCounters = () => {
+  if (counterAnimated) return
+  counterAnimated = true
+  const duration = 2200
+  const start = Date.now()
+  const easeOut = (t) => 1 - Math.pow(1 - t, 3)
+  const frame = () => {
+    const elapsed = Date.now() - start
+    const progress = Math.min(elapsed / duration, 1)
+    const eased = easeOut(progress)
+    Object.keys(counterTargets).forEach(key => {
+      counters.value[key] = Math.floor(counterTargets[key] * eased)
+    })
+    if (progress < 1) requestAnimationFrame(frame)
+  }
+  requestAnimationFrame(frame)
+}
+
+const handleScroll = () => {
+  isScrolled.value = window.scrollY > 60
+  showScrollTop.value = window.scrollY > 500
+}
+
+const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 
 const toggleAccordion = (index) => {
   activeAccordion.value = activeAccordion.value === index ? null : index
@@ -658,13 +799,32 @@ const scrollToVolunteer = () => {
   document.getElementById('volunteer')?.scrollIntoView({ behavior: 'smooth' })
 }
 
-const goToRegister = () => {
-  router.push('/register')
-}
+const goToRegister = () => router.push('/register')
+const goToDashboard = () => router.push('/dashboard')
 
-const goToDashboard = () => {
-  router.push('/dashboard')
-}
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll, { passive: true })
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('section-visible')
+          if (entry.target.classList.contains('stats-section')) animateCounters()
+          observer.unobserve(entry.target)
+        }
+      })
+    },
+    { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+  )
+
+  document.querySelectorAll(
+    '.steps-section, .program-section, .team-section, .qna-section, ' +
+    '.faq-section, .activities-section, .features-section, .volunteer-section, .stats-section'
+  ).forEach(el => observer.observe(el))
+})
+
+onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 </script>
 
 <style scoped>
@@ -747,7 +907,9 @@ const goToDashboard = () => {
   gap: 0.75rem;
 }
 
-.lang-btn, .search-btn, .user-btn {
+.lang-btn,
+.search-btn,
+.user-btn {
   background: transparent;
   border: none;
   color: #374151;
@@ -758,7 +920,9 @@ const goToDashboard = () => {
   transition: color 0.3s ease;
 }
 
-.lang-btn:hover, .search-btn:hover, .user-btn:hover {
+.lang-btn:hover,
+.search-btn:hover,
+.user-btn:hover {
   color: #f97316;
 }
 
@@ -1846,11 +2010,11 @@ const goToDashboard = () => {
   .nav-links {
     display: none;
   }
-  
+
   .hero-title {
     font-size: 3rem;
   }
-  
+
   .section-container {
     grid-template-columns: 1fr;
     gap: 2rem;
@@ -1870,15 +2034,15 @@ const goToDashboard = () => {
   .hero {
     height: 500px;
   }
-  
+
   .hero-title {
     font-size: 2.5rem;
   }
-  
+
   .features-container {
     grid-template-columns: 1fr;
   }
-  
+
   .section-title {
     font-size: 2rem;
   }
@@ -1898,5 +2062,463 @@ const goToDashboard = () => {
   .team-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* ============================================================
+   ENHANCED UI — Navbar scroll effect, mobile menu, stats,
+   scroll-reveal, scroll-to-top, step badges, animations
+   ============================================================ */
+
+/* Navbar smooth transition & scrolled glass effect */
+.navbar {
+  transition: box-shadow 0.35s ease, background 0.35s ease, padding 0.35s ease;
+}
+
+.navbar.scrolled {
+  padding: 0.6rem 0;
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Nav-link active underline on hover */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #f97316;
+  border-radius: 2px;
+  transform: scaleX(0);
+  transition: transform 0.25s ease;
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* Mobile menu button (hidden on desktop) */
+.mobile-menu-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: #374151;
+  transition: color 0.25s;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+.mobile-menu-btn:hover {
+  color: #f97316;
+  background: #fff7ed;
+}
+
+@media (max-width: 1024px) {
+  .mobile-menu-btn {
+    display: flex;
+  }
+}
+
+/* Mobile menu overlay & panel */
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 998;
+  backdrop-filter: blur(4px);
+}
+
+.mobile-menu-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(320px, 85vw);
+  height: 100%;
+  background: white;
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.15);
+  overflow-y: auto;
+}
+
+.mobile-menu-logo {
+  padding-bottom: 1.25rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.mobile-nav-link {
+  display: block;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  color: #374151;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.mobile-nav-link:hover {
+  background: #fff7ed;
+  color: #f97316;
+  padding-left: 1.5rem;
+}
+
+.mobile-cta-btn {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 0.9rem;
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.35);
+}
+
+.mobile-cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(249, 115, 22, 0.45);
+}
+
+/* Mobile menu slide-in transition */
+.mobile-menu-enter-active,
+.mobile-menu-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.mobile-menu-enter-active .mobile-menu-panel,
+.mobile-menu-leave-active .mobile-menu-panel {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-menu-enter-from,
+.mobile-menu-leave-to {
+  opacity: 0;
+}
+
+.mobile-menu-enter-from .mobile-menu-panel,
+.mobile-menu-leave-to .mobile-menu-panel {
+  transform: translateX(100%);
+}
+
+/* Hero button pulse */
+.btn-primary {
+  animation: heroPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes heroPulse {
+
+  0%,
+  100% {
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
+  }
+
+  50% {
+    box-shadow: 0 4px 24px rgba(249, 115, 22, 0.65);
+  }
+}
+
+.btn-primary:hover {
+  animation: none;
+}
+
+/* ======== Stats Section ======== */
+.stats-section {
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 60%, #dc4a09 100%);
+  padding: 4rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.stats-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.stats-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-stat-item {
+  text-align: center;
+  padding: 2rem 1rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.hero-stat-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+}
+
+.hero-stat-number {
+  font-size: 2.75rem;
+  font-weight: 800;
+  color: white;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.hero-stat-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 768px) {
+  .stats-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .hero-stat-number {
+    font-size: 2rem;
+  }
+}
+
+/* ======== Step Card Number Badges (CSS Counter) ======== */
+.steps-grid {
+  counter-reset: step-counter;
+}
+
+.step-card {
+  counter-increment: step-counter;
+}
+
+.step-card::after {
+  content: "0" counter(step-counter);
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: white;
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
+  line-height: 44px;
+  text-align: center;
+}
+
+/* ======== Scroll-reveal animations ======== */
+.volunteer-section,
+.steps-section,
+.program-section,
+.team-section,
+.qna-section,
+.faq-section,
+.activities-section,
+.features-section {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.75s ease, transform 0.75s ease;
+}
+
+.section-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* Staggered card animations once section is visible */
+.steps-section.section-visible .step-card {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.steps-section .step-card {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.steps-section.section-visible .step-card:nth-child(1) {
+  transition-delay: 0.1s;
+}
+
+.steps-section.section-visible .step-card:nth-child(2) {
+  transition-delay: 0.22s;
+}
+
+.steps-section.section-visible .step-card:nth-child(3) {
+  transition-delay: 0.34s;
+}
+
+.steps-section.section-visible .step-card:nth-child(4) {
+  transition-delay: 0.46s;
+}
+
+.program-section .program-card,
+.team-section .team-card,
+.activities-section .activity-card,
+.features-section .feature-card {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.program-section.section-visible .program-card,
+.team-section.section-visible .team-card,
+.activities-section.section-visible .activity-card,
+.features-section.section-visible .feature-card {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.program-section.section-visible .program-card:nth-child(1),
+.team-section.section-visible .team-card:nth-child(1),
+.activities-section.section-visible .activity-card:nth-child(1),
+.features-section.section-visible .feature-card:nth-child(1) {
+  transition-delay: 0.1s;
+}
+
+.program-section.section-visible .program-card:nth-child(2),
+.team-section.section-visible .team-card:nth-child(2),
+.activities-section.section-visible .activity-card:nth-child(2),
+.features-section.section-visible .feature-card:nth-child(2) {
+  transition-delay: 0.22s;
+}
+
+.program-section.section-visible .program-card:nth-child(3),
+.team-section.section-visible .team-card:nth-child(3),
+.activities-section.section-visible .activity-card:nth-child(3),
+.features-section.section-visible .feature-card:nth-child(3) {
+  transition-delay: 0.34s;
+}
+
+.team-section.section-visible .team-card:nth-child(4) {
+  transition-delay: 0.46s;
+}
+
+/* Stats section animation on scroll */
+.stats-section {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.75s ease, transform 0.75s ease;
+}
+
+.stats-section.section-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stats-section.section-visible .hero-stat-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stats-section .hero-stat-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.stats-section.section-visible .hero-stat-item:nth-child(1) {
+  transition-delay: 0.1s;
+}
+
+.stats-section.section-visible .hero-stat-item:nth-child(2) {
+  transition-delay: 0.2s;
+}
+
+.stats-section.section-visible .hero-stat-item:nth-child(3) {
+  transition-delay: 0.3s;
+}
+
+.stats-section.section-visible .hero-stat-item:nth-child(4) {
+  transition-delay: 0.4s;
+}
+
+/* ======== Scroll-to-top button ======== */
+.scroll-top-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 997;
+  box-shadow: 0 4px 18px rgba(249, 115, 22, 0.45);
+  transition: all 0.3s ease;
+}
+
+.scroll-top-btn:hover {
+  transform: translateY(-4px) scale(1.08);
+  box-shadow: 0 8px 28px rgba(249, 115, 22, 0.55);
+}
+
+.fade-up-enter-active,
+.fade-up-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.fade-up-enter-from,
+.fade-up-leave-to {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+/* ======== Feature card icon ring ======== */
+.feature-icon {
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.feature-card:hover .feature-icon {
+  transform: scale(1.15) rotate(8deg);
+}
+
+/* ======== Footer social alt hover ======== */
+.social-link {
+  transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
 }
 </style>
