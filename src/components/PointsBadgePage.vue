@@ -17,7 +17,7 @@
             <span class="badge-value">{{ currentPoin }}</span>
           </div>
         </div>
-        
+
         <div class="poin-progress">
           <div class="progress-info">
             <span class="progress-current">{{ currentPoin }} Poin</span>
@@ -43,14 +43,9 @@
           <span class="title-icon">🏆</span>
           Koleksi Badge
         </h2>
-        
+
         <div class="badges-grid">
-          <div 
-            v-for="badge in badges" 
-            :key="badge.id"
-            class="badge-item"
-            :class="{ locked: badge.count === 0 }"
-          >
+          <div v-for="badge in badges" :key="badge.id" class="badge-item" :class="{ locked: badge.count === 0 }">
             <div class="badge-image-wrapper">
               <div class="badge-glow"></div>
               <img :src="badge.image" :alt="badge.name" class="badge-image" />
@@ -85,27 +80,15 @@
           <span class="title-icon">🎁</span>
           Hadiah & Penghargaan
         </h2>
-        
+
         <div class="reward-tabs">
-          <button 
-            class="tab-btn" 
-            :class="{ active: currentTab === 'all' }"
-            @click="currentTab = 'all'"
-          >
+          <button class="tab-btn" :class="{ active: currentTab === 'all' }" @click="currentTab = 'all'">
             Semua
           </button>
-          <button 
-            class="tab-btn" 
-            :class="{ active: currentTab === 'liburan' }"
-            @click="currentTab = 'liburan'"
-          >
+          <button class="tab-btn" :class="{ active: currentTab === 'liburan' }" @click="currentTab = 'liburan'">
             ✈️ Liburan & Trip
           </button>
-          <button 
-            class="tab-btn" 
-            :class="{ active: currentTab === 'merchandise' }"
-            @click="currentTab = 'merchandise'"
-          >
+          <button class="tab-btn" :class="{ active: currentTab === 'merchandise' }" @click="currentTab = 'merchandise'">
             👕 Merchandise
           </button>
         </div>
@@ -117,12 +100,8 @@
         </div>
 
         <div v-else class="rewards-grid">
-          <div 
-            v-for="reward in filteredRewards" 
-            :key="reward.id"
-            class="reward-card"
-            @click="handleRewardClick(reward)"
-          >
+          <div v-for="reward in filteredRewards" :key="reward.id" class="reward-card"
+            @click="handleRewardClick(reward)">
             <!-- Image -->
             <div class="reward-image">
               <img :src="reward.image" :alt="reward.title" />
@@ -150,11 +129,7 @@
               <!-- Footer -->
               <div class="reward-footer">
                 <span class="expiry-text">🗓️ {{ reward.expiryDate }}</span>
-                <button 
-                  v-if="reward.status === 'active'"
-                  class="btn-tukar" 
-                  @click="handleRewardClick(reward)"
-                >
+                <button v-if="reward.status === 'active'" class="btn-tukar" @click="handleRewardClick(reward)">
                   🎁 Tukar
                 </button>
                 <span v-else class="badge-expired">Berakhir</span>
@@ -221,7 +196,8 @@
           </div>
           <div class="success-icon">🎉</div>
           <h3 class="success-title">Penukaran Berhasil!</h3>
-          <p class="success-desc">Kamu berhasil menukarkan <strong>{{ confirmModal.reward?.points }} Poin</strong> untuk:</p>
+          <p class="success-desc">Kamu berhasil menukarkan <strong>{{ confirmModal.reward?.points }} Poin</strong>
+            untuk:</p>
           <p class="success-reward-name">{{ confirmModal.reward?.title }}</p>
           <div class="success-points-badge">Sisa Poin: {{ currentPoin }} ✨</div>
           <button class="btn-konfirmasi" style="margin-top: 24px;" @click="closeConfirmModal">Tutup</button>
@@ -235,7 +211,7 @@
   <Transition name="modal-fade">
     <div v-if="travelModal.show" class="modal-backdrop" @click.self="closeTravelModal">
       <div class="travel-modal confirm-modal">
-        
+
         <div v-if="!travelModal.success" class="modal-step">
           <button class="modal-close-btn" @click="closeTravelModal">✕</button>
 
@@ -255,14 +231,10 @@
 
             <div class="claim-items-container">
               <h4 class="claim-section-title">Pilih Item untuk Diklaim</h4>
-              
-              <div 
-                v-for="(item, index) in travelModal.reward?.claimableItems" 
-                :key="index"
-                class="claim-item"
+
+              <div v-for="(item, index) in travelModal.reward?.claimableItems" :key="index" class="claim-item"
                 :class="{ 'is-selected': isItemSelected(item), 'is-disabled': !canAffordItem(item) }"
-                @click="toggleItemSelection(item)"
-              >
+                @click="toggleItemSelection(item)">
                 <div class="item-checkbox">
                   <div class="checkbox-box" :class="{ checked: isItemSelected(item) }">
                     <span v-if="isItemSelected(item)">✓</span>
@@ -288,18 +260,11 @@
             </div>
 
             <div class="modal-actions travel-actions">
-              <button 
-                class="btn-batal" 
-                @click="claimAllTravel"
-                :disabled="!canAffordAll || travelModal.loading"
-              >
+              <button class="btn-batal" @click="claimAllTravel" :disabled="!canAffordAll || travelModal.loading">
                 Klaim Semua Item
               </button>
-              <button 
-                class="btn-konfirmasi" 
-                @click="claimSelectedTravel" 
-                :disabled="selectedItems.length === 0 || selectedTotalPoints > currentPoin || travelModal.loading"
-              >
+              <button class="btn-konfirmasi" @click="claimSelectedTravel"
+                :disabled="selectedItems.length === 0 || selectedTotalPoints > currentPoin || travelModal.loading">
                 <span v-if="!travelModal.loading">🚀 Klaim Terpilih</span>
                 <span v-else class="loading-dots">Memproses<span>.</span><span>.</span><span>.</span></span>
               </button>
@@ -315,7 +280,7 @@
           <div class="success-icon">✈️</div>
           <h3 class="success-title">Yey! Pembelian Tiket Berhasil</h3>
           <p class="success-desc">Kamu telah berhasil mengklaim item perjalanan berikut:</p>
-          
+
           <ul class="success-claimed-list">
             <li v-for="item in travelModal.claimedItems" :key="item.name">
               ✓ {{ item.name }} ({{ item.points }} Poin)
@@ -378,6 +343,12 @@ const badges = ref([
     name: 'Support Office',
     count: 0,
     image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=150&h=150&fit=crop'
+  },
+  {
+    id: 7,
+    name: 'Fundraiser',
+    count: 0,
+    image: 'https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=150&h=150&fit=crop'
   }
 ])
 
@@ -541,13 +512,13 @@ const claimAllTravel = () => {
 
 const claimSelectedTravel = async () => {
   if (selectedItems.value.length === 0) return;
-  
+
   travelModal.value.loading = true
   await new Promise(resolve => setTimeout(resolve, 1500))
-  
+
   currentPoin.value -= selectedTotalPoints.value
   travelModal.value.claimedItems = [...selectedItems.value]
-  
+
   travelModal.value.loading = false
   travelModal.value.success = true
 }
@@ -564,11 +535,11 @@ const claimSelectedTravel = async () => {
   gap: 12px;
   margin-bottom: 28px;
   padding: 20px 24px;
-  background: rgba(255,255,255,0.8);
+  background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(10px);
   border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.5);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 }
 
 .page-title {
@@ -599,6 +570,7 @@ const claimSelectedTravel = async () => {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -621,8 +593,15 @@ const claimSelectedTravel = async () => {
 }
 
 @keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
 }
 
 /* Poin Section */
@@ -645,8 +624,13 @@ const claimSelectedTravel = async () => {
 }
 
 @keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .poin-header {
@@ -670,8 +654,15 @@ const claimSelectedTravel = async () => {
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 4px 16px rgba(249, 115, 22, 0.4); }
-  50% { box-shadow: 0 8px 24px rgba(249, 115, 22, 0.6); }
+
+  0%,
+  100% {
+    box-shadow: 0 4px 16px rgba(249, 115, 22, 0.4);
+  }
+
+  50% {
+    box-shadow: 0 8px 24px rgba(249, 115, 22, 0.6);
+  }
 }
 
 .badge-label {
@@ -747,8 +738,13 @@ const claimSelectedTravel = async () => {
 }
 
 @keyframes shimmer {
-  0% { left: -100%; }
-  100% { left: 200%; }
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 200%;
+  }
 }
 
 .progress-percentage {
@@ -780,8 +776,15 @@ const claimSelectedTravel = async () => {
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
 }
 
 .tips-text {
@@ -875,9 +878,19 @@ const claimSelectedTravel = async () => {
 }
 
 @keyframes shake {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(-5deg); }
-  75% { transform: rotate(5deg); }
+
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(-5deg);
+  }
+
+  75% {
+    transform: rotate(5deg);
+  }
 }
 
 .unlock-badge {
@@ -1086,7 +1099,9 @@ const claimSelectedTravel = async () => {
   transition: transform 0.4s ease;
 }
 
-.reward-card:hover .reward-image img { transform: scale(1.08); }
+.reward-card:hover .reward-image img {
+  transform: scale(1.08);
+}
 
 .image-poin-pill {
   position: absolute;
@@ -1106,7 +1121,7 @@ const claimSelectedTravel = async () => {
   top: 8px;
   right: 10px;
   font-size: 18px;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
 /* Card content */
@@ -1128,8 +1143,15 @@ const claimSelectedTravel = async () => {
   letter-spacing: 0.3px;
 }
 
-.reward-category-tag.liburan { background: #eff6ff; color: #3b82f6; }
-.reward-category-tag.merchandise { background: #f0fdf4; color: #16a34a; }
+.reward-category-tag.liburan {
+  background: #eff6ff;
+  color: #3b82f6;
+}
+
+.reward-category-tag.merchandise {
+  background: #f0fdf4;
+  color: #16a34a;
+}
 
 .reward-title {
   font-size: 13px;
@@ -1162,7 +1184,11 @@ const claimSelectedTravel = async () => {
   transition: all 0.2s;
 }
 
-.chip.chip-ok { background: #dcfce7; color: #16a34a; border-color: #86efac; }
+.chip.chip-ok {
+  background: #dcfce7;
+  color: #16a34a;
+  border-color: #86efac;
+}
 
 /* Footer */
 .reward-footer {
@@ -1174,7 +1200,10 @@ const claimSelectedTravel = async () => {
   margin-top: auto;
 }
 
-.expiry-text { font-size: 11px; color: #9ca3af; }
+.expiry-text {
+  font-size: 11px;
+  color: #9ca3af;
+}
 
 .badge-expired {
   font-size: 11px;
@@ -1290,16 +1319,30 @@ const claimSelectedTravel = async () => {
 }
 
 @keyframes modalSlideUp {
-  from { opacity: 0; transform: translateY(40px) scale(0.95); }
-  to   { opacity: 1; transform: translateY(0)   scale(1); }
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .modal-fade-enter-active,
-.modal-fade-leave-active { transition: opacity 0.25s ease; }
-.modal-fade-enter-from,
-.modal-fade-leave-to { opacity: 0; }
+.modal-fade-leave-active {
+  transition: opacity 0.25s ease;
+}
 
-.modal-step { position: relative; }
+.modal-fade-enter-from,
+.modal-fade-leave-to {
+  opacity: 0;
+}
+
+.modal-step {
+  position: relative;
+}
 
 /* Reward image at top */
 .modal-reward-img {
@@ -1307,17 +1350,20 @@ const claimSelectedTravel = async () => {
   height: 180px;
   overflow: hidden;
 }
+
 .modal-reward-img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
+
 .modal-img-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 50%, transparent 100%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.5) 50%, transparent 100%);
 }
+
 .modal-poin-pill {
   position: absolute;
   bottom: 12px;
@@ -1337,7 +1383,7 @@ const claimSelectedTravel = async () => {
   top: 10px;
   right: 12px;
   z-index: 10;
-  background: rgba(255,255,255,0.85);
+  background: rgba(255, 255, 255, 0.85);
   border: none;
   width: 32px;
   height: 32px;
@@ -1349,20 +1395,30 @@ const claimSelectedTravel = async () => {
   justify-content: center;
   transition: background 0.2s;
 }
-.modal-close-btn:hover { background: #fee2e2; color: #dc2626; }
+
+.modal-close-btn:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
 
 /* Modal body */
 .modal-body {
   padding: 24px;
   text-align: center;
 }
-.modal-icon-badge { font-size: 40px; margin-bottom: 8px; }
+
+.modal-icon-badge {
+  font-size: 40px;
+  margin-bottom: 8px;
+}
+
 .modal-title {
   font-size: 20px;
   font-weight: 700;
   color: #111827;
   margin: 0 0 8px;
 }
+
 .modal-reward-name {
   font-size: 13px;
   color: #6b7280;
@@ -1378,17 +1434,38 @@ const claimSelectedTravel = async () => {
   margin-bottom: 16px;
   text-align: left;
 }
+
 .summary-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 6px 0;
 }
-.summary-label { font-size: 14px; color: #6b7280; }
-.summary-value { font-size: 14px; font-weight: 600; color: #111827; }
-.summary-value.current { color: #10b981; }
-.summary-value.cost     { color: #ef4444; }
-.summary-value.remain   { color: #f97316; font-size: 16px; }
+
+.summary-label {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.summary-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.summary-value.current {
+  color: #10b981;
+}
+
+.summary-value.cost {
+  color: #ef4444;
+}
+
+.summary-value.remain {
+  color: #f97316;
+  font-size: 16px;
+}
+
 .summary-divider {
   border-top: 1.5px dashed #e5e7eb;
   margin: 8px 0;
@@ -1405,6 +1482,7 @@ const claimSelectedTravel = async () => {
   display: flex;
   gap: 12px;
 }
+
 .btn-batal {
   flex: 1;
   padding: 12px;
@@ -1418,7 +1496,12 @@ const claimSelectedTravel = async () => {
   transition: all 0.2s ease;
   font-family: inherit;
 }
-.btn-batal:hover { background: #f9fafb; border-color: #d1d5db; }
+
+.btn-batal:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+}
+
 .btn-konfirmasi {
   flex: 1;
   padding: 12px;
@@ -1433,19 +1516,42 @@ const claimSelectedTravel = async () => {
   box-shadow: 0 4px 14px rgba(249, 115, 22, 0.35);
   font-family: inherit;
 }
+
 .btn-konfirmasi:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(249, 115, 22, 0.45);
 }
-.btn-konfirmasi:disabled { opacity: 0.65; cursor: not-allowed; }
+
+.btn-konfirmasi:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
 
 /* Loading dots */
 .loading-dots span {
   animation: blink 1.2s infinite;
 }
-.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
-.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
-@keyframes blink { 0%, 80%, 100% { opacity: 0; } 40% { opacity: 1; } }
+
+.loading-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+
+  0%,
+  80%,
+  100% {
+    opacity: 0;
+  }
+
+  40% {
+    opacity: 1;
+  }
+}
 
 /* Success state */
 .modal-success {
@@ -1454,16 +1560,26 @@ const claimSelectedTravel = async () => {
   position: relative;
   overflow: hidden;
 }
+
 .success-icon {
   font-size: 72px;
   animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   display: block;
   margin-bottom: 16px;
 }
+
 @keyframes popIn {
-  from { opacity: 0; transform: scale(0.4); }
-  to   { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
+
 .success-title {
   font-size: 24px;
   font-weight: 800;
@@ -1471,7 +1587,13 @@ const claimSelectedTravel = async () => {
   margin: 0 0 12px;
   letter-spacing: -0.5px;
 }
-.success-desc { font-size: 14px; color: #6b7280; margin: 0 0 8px; }
+
+.success-desc {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0 0 8px;
+}
+
 .success-reward-name {
   font-size: 13px;
   color: #374151;
@@ -1481,6 +1603,7 @@ const claimSelectedTravel = async () => {
   background: #f9fafb;
   border-radius: 10px;
 }
+
 .success-points-badge {
   display: inline-block;
   padding: 10px 24px;
@@ -1499,6 +1622,7 @@ const claimSelectedTravel = async () => {
   pointer-events: none;
   overflow: hidden;
 }
+
 .confetti-piece {
   position: absolute;
   width: 10px;
@@ -1510,9 +1634,17 @@ const claimSelectedTravel = async () => {
   animation: confettiFall calc(1s + var(--i) * 0.1s) ease-in forwards;
   animation-delay: calc(var(--i) * 0.05s);
 }
+
 @keyframes confettiFall {
-  0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
-  100% { transform: translateY(420px) rotate(540deg); opacity: 0; }
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(420px) rotate(540deg);
+    opacity: 0;
+  }
 }
 
 /* ===== TRAVEL MODAL SPECIFICS ===== */
@@ -1529,25 +1661,28 @@ const claimSelectedTravel = async () => {
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 30px 20px 16px; /* slightly taller padding for gradient */
-  background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 60%, transparent 100%);
+  padding: 30px 20px 16px;
+  /* slightly taller padding for gradient */
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.6) 60%, transparent 100%);
   color: white;
   text-align: left;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
 .travel-banner-title h3 {
   font-size: 18px;
   margin: 0 0 4px;
   line-height: 1.3;
-  color: #ffffff; /* Explicitly force white */
+  color: #ffffff;
+  /* Explicitly force white */
 }
 
 .travel-banner-title p {
   font-size: 12px;
   margin: 0;
   opacity: 0.9;
-  color: #ffffff; /* Explicitly force white */
+  color: #ffffff;
+  /* Explicitly force white */
 }
 
 .travel-body {
