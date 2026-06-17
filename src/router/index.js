@@ -4,7 +4,7 @@ import VolunteerDashboard from '../components/VolunteerDashboard.vue'
 
 const routes = [
   {
-    path: '/',
+    path: '/register',
     name: 'Register',
     component: VolunteerRegistrationForm,
     meta: {
@@ -12,7 +12,7 @@ const routes = [
     }
   },
   {
-    path: '/dashboard',
+    path: '/',
     name: 'Dashboard',
     component: VolunteerDashboard,
     meta: {

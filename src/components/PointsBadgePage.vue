@@ -361,6 +361,7 @@ const rewards = ref([
   {
     id: 1,
     category: 'liburan',
+    rewardType: 'Hotel & Travel',
     title: 'Ayo! Kumpulkan poinmu hingga 1.500 untuk mendapatkan GRATIS trip volunteer ke Bengkayang, Kalimantan Barat!',
     description: 'Kamu akan mendapatkan pengalaman tinggal bersama masyarakat, berkegiatan dengan anak-anak dan masyarakat, jalan-jalan ke tempat wisata menarik sekitar Bengkayang.',
     points: 1500,
@@ -377,6 +378,7 @@ const rewards = ref([
   {
     id: 2,
     category: 'liburan',
+    rewardType: 'Hotel & Travel',
     title: 'Trip Volunteer Eksklusif: Mengajar di Pulau Komodo',
     description: 'Jadilah bagian dari perubahan dengan membagikan ilmu di sekolah-sekolah lokal di Pulau Komodo, sekaligus menikmati keindahan alamnya.',
     points: 2500,
@@ -393,24 +395,78 @@ const rewards = ref([
   {
     id: 3,
     category: 'merchandise',
-    title: 'T-Shirt Eksklusif Relawan Wahana Visi',
-    description: 'Tukarkan poinmu dengan T-Shirt eksklusif berbahan cotton combed 30s premium. Tunjukkan kebanggaanmu sebagai relawan!',
+    rewardType: 'Voucher MAP',
+    title: 'Voucher Belanja MAP Senilai Rp 500.000',
+    description: 'Tukarkan poinmu dengan voucher belanja di MAP senilai Rp 500.000 untuk kebutuhan apapun yang kamu inginkan.',
     points: 500,
     badges: 5,
     expiryDate: '2025-10-15',
     status: 'active',
-    image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=300&fit=crop'
+    image: 'https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=400&h=300&fit=crop'
   },
   {
     id: 4,
     category: 'merchandise',
-    title: 'Tumbler Stainless Steel Ramah Lingkungan',
-    description: 'Kurangi penggunaan plastik dengan tumbler premium ini. Menjaga suhu minuman hingga 12 jam. Cocok untuk menemanimu saat kegiatan volunteer.',
-    points: 800,
-    badges: 10,
+    rewardType: 'Voucher Indomaret',
+    title: 'Voucher Indomaret Senilai Rp 300.000',
+    description: 'Voucher belanja Indomaret untuk kebutuhan sehari-hari dan produk pilihan favorit kamu.',
+    points: 300,
+    badges: 3,
     expiryDate: '2025-11-20',
     status: 'active',
-    image: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=300&fit=crop'
+    image: 'https://images.unsplash.com/photo-1530781033100-9f60a05a9d82?w=400&h=300&fit=crop'
+  },
+  {
+    id: 5,
+    category: 'merchandise',
+    rewardType: 'Voucher Alfamart',
+    title: 'Voucher Alfamart Senilai Rp 300.000',
+    description: 'Belanja di Alfamart dengan voucher spesial ini dan dapatkan berbagai produk pilihan.',
+    points: 300,
+    badges: 3,
+    expiryDate: '2025-12-15',
+    status: 'active',
+    image: 'https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?w=400&h=300&fit=crop'
+  },
+  {
+    id: 6,
+    category: 'merchandise',
+    rewardType: 'Fashion & Luxury',
+    title: 'Dior Sunglasses Koleksi Terbaru',
+    description: 'Sunglasses eksklusif dari Dior dengan desain modern dan elegan. Tunjukkan gaya fashion premium kamu!',
+    points: 3000,
+    badges: 50,
+    expiryDate: '2025-12-31',
+    status: 'active',
+    image: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=300&fit=crop'
+  },
+  {
+    id: 7,
+    category: 'liburan',
+    rewardType: 'Hotel & Travel',
+    title: 'Menginap di Hotel Mulia Senayan Jakarta - 2 Malam',
+    description: 'Nikmati pengalaman mewah menginap di Hotel Mulia Senayan dengan fasilitas 5 bintang yang eksklusif.',
+    points: 3500,
+    badges: 45,
+    expiryDate: '2026-12-31',
+    status: 'active',
+    image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=400&h=300&fit=crop',
+    claimableItems: [
+      { name: 'Akomodasi 2 Malam', points: 2500 },
+      { name: 'Breakfast & Dinner', points: 1000 }
+    ]
+  },
+  {
+    id: 8,
+    category: 'merchandise',
+    rewardType: 'Merchandise',
+    title: 'T-Shirt Premium Relawan Wahana Visi',
+    description: 'T-Shirt eksklusif berbahan premium cotton combed 30s dengan design eksklusif Wahana Visi.',
+    points: 400,
+    badges: 4,
+    expiryDate: '2025-10-15',
+    status: 'active',
+    image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=300&fit=crop'
   }
 ])
 

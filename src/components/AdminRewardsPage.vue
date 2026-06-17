@@ -46,6 +46,15 @@
               <option value="liburan">Liburan & Trip</option>
               <option value="merchandise">Merchandise</option>
             </select>
+            <select v-model="typeFilter" class="filter-select">
+              <option value="all">Semua Jenis</option>
+              <option value="Voucher MAP">Voucher MAP</option>
+              <option value="Voucher Indomaret">Voucher Indomaret</option>
+              <option value="Voucher Alfamart">Voucher Alfamart</option>
+              <option value="Fashion & Luxury">Fashion & Luxury</option>
+              <option value="Hotel & Travel">Hotel & Travel</option>
+              <option value="Merchandise">Merchandise</option>
+            </select>
             <button class="btn-primary" @click="openRewardModal(null)">
               <span>+</span> Tambah Reward
             </button>
@@ -58,6 +67,7 @@
               <tr>
                 <th>Detail Hadiah</th>
                 <th>Kategori</th>
+                <th>Jenis Reward</th>
                 <th>Syarat Poin & Badge</th>
                 <th>Masa Berlaku</th>
                 <th>Status</th>
@@ -66,7 +76,7 @@
             </thead>
             <tbody>
               <tr v-if="filteredRewards.length === 0">
-                <td colspan="6" class="empty-state">
+                <td colspan="7" class="empty-state">
                   Belum ada hadiah yang ditemukan.
                 </td>
               </tr>
@@ -84,6 +94,9 @@
                   <span class="category-tag" :class="reward.category">
                     {{ reward.category === 'liburan' ? '✈️ Liburan' : '👕 Merchandise' }}
                   </span>
+                </td>
+                <td>
+                  <span class="type-tag">{{ reward.rewardType }}</span>
                 </td>
                 <td>
                   <div class="req-chips">
@@ -129,6 +142,18 @@
                 <select v-model="formData.category" required class="form-input">
                   <option value="liburan">Liburan & Trip (Travel)</option>
                   <option value="merchandise">Merchandise</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Jenis Reward <span class="required">*</span></label>
+                <select v-model="formData.rewardType" required class="form-input">
+                  <option value="">-- Pilih Jenis --</option>
+                  <option value="Voucher MAP">🎫 Voucher MAP</option>
+                  <option value="Voucher Indomaret">🎫 Voucher Indomaret</option>
+                  <option value="Voucher Alfamart">🎫 Voucher Alfamart</option>
+                  <option value="Fashion & Luxury">👜 Fashion & Luxury (Dior, LV, dll)</option>
+                  <option value="Hotel & Travel">🏨 Hotel & Travel (Hotel Mulia, dll)</option>
+                  <option value="Merchandise">👕 Merchandise</option>
                 </select>
               </div>
               <div class="form-group">
@@ -216,12 +241,14 @@ import { ref, computed } from 'vue'
 
 const searchQuery = ref('')
 const categoryFilter = ref('all')
+const typeFilter = ref('all')
 
 // Initial Mock Data (same as PointsBadgePage)
 const rewards = ref([
   {
     id: 1,
     category: 'liburan',
+    rewardType: 'Hotel & Travel',
     title: 'Ayo! Kumpulkan poinmu hingga 1.500 untuk mendapatkan GRATIS trip volunteer ke Bengkayang, Kalimantan Barat!',
     description: 'Kamu akan mendapatkan pengalaman tinggal bersama masyarakat, berkegiatan dengan anak-anak dan masyarakat, jalan-jalan ke tempat wisata menarik sekitar Bengkayang.',
     points: 1500,
@@ -238,6 +265,7 @@ const rewards = ref([
   {
     id: 2,
     category: 'liburan',
+    rewardType: 'Hotel & Travel',
     title: 'Trip Volunteer Eksklusif: Mengajar di Pulau Komodo',
     description: 'Jadilah bagian dari perubahan dengan membagikan ilmu di sekolah-sekolah lokal di Pulau Komodo, sekaligus menikmati keindahan alamnya.',
     points: 2500,
@@ -254,25 +282,40 @@ const rewards = ref([
   {
     id: 3,
     category: 'merchandise',
-    title: 'T-Shirt Eksklusif Relawan Wahana Visi',
-    description: 'Tukarkan poinmu dengan T-Shirt eksklusif berbahan cotton combed 30s premium. Tunjukkan kebanggaanmu sebagai relawan!',
+    rewardType: 'Voucher MAP',
+    title: 'Voucher Belanja MAP Senilai 500.000',
+    description: 'Tukarkan poinmu dengan voucher belanja di MAP senilai Rp 500.000 untuk kebutuhan apapun yang kamu inginkan.',
     points: 500,
     badges: 5,
     expiryDate: '2025-10-15',
     status: 'active',
-    image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=300&fit=crop',
+    image: 'https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=400&h=300&fit=crop',
     claimableItems: []
   },
   {
     id: 4,
     category: 'merchandise',
-    title: 'Tumbler Stainless Steel Ramah Lingkungan',
-    description: 'Kurangi penggunaan plastik dengan tumbler premium ini. Menjaga suhu minuman hingga 12 jam. Cocok untuk menemanimu saat kegiatan volunteer.',
-    points: 800,
-    badges: 10,
+    rewardType: 'Voucher Indomaret',
+    title: 'Voucher Indomaret Senilai 300.000',
+    description: 'Voucher belanja Indomaret untuk kebutuhan sehari-hari dan produk pilihan favorit.',
+    points: 300,
+    badges: 3,
     expiryDate: '2025-11-20',
     status: 'active',
-    image: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=300&fit=crop',
+    image: 'https://images.unsplash.com/photo-1530781033100-9f60a05a9d82?w=400&h=300&fit=crop',
+    claimableItems: []
+  },
+  {
+    id: 5,
+    category: 'merchandise',
+    rewardType: 'Fashion & Luxury',
+    title: 'Dior Sunglasses Koleksi Terbaru',
+    description: 'Sunglasses eksklusif dari Dior dengan desain modern dan elegan. Cocok untuk gaya fashion Anda.',
+    points: 3000,
+    badges: 50,
+    expiryDate: '2025-12-31',
+    status: 'active',
+    image: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=300&fit=crop',
     claimableItems: []
   }
 ])
@@ -287,7 +330,8 @@ const filteredRewards = computed(() => {
     const matchesSearch = r.title.toLowerCase().includes(searchQuery.value.toLowerCase()) || 
                           r.description.toLowerCase().includes(searchQuery.value.toLowerCase())
     const matchesCategory = categoryFilter.value === 'all' || r.category === categoryFilter.value
-    return matchesSearch && matchesCategory
+    const matchesType = typeFilter.value === 'all' || r.rewardType === typeFilter.value
+    return matchesSearch && matchesCategory && matchesType
   })
 })
 
@@ -303,6 +347,7 @@ const loading = ref(false)
 const getEmptyForm = () => ({
   id: null,
   category: 'liburan',
+  rewardType: '',
   title: '',
   description: '',
   points: 0,
@@ -590,6 +635,17 @@ const deleteReward = (id) => {
 }
 .category-tag.liburan { background: #eff6ff; color: #3b82f6; }
 .category-tag.merchandise { background: #f0fdf4; color: #16a34a; }
+
+.type-tag {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #e0e7ff 0%, #dbeafe 100%);
+  color: #4f46e5;
+  display: inline-block;
+  white-space: nowrap;
+}
 
 .req-chips { display: flex; flex-direction: column; gap: 4px; }
 .req-chips span { 

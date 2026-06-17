@@ -114,6 +114,15 @@
               <div class="nav-subitem" @click="activeSection = 'kelola-rewards'">
                 Kelola Rewards
               </div>
+              <div class="nav-subitem" @click="activeSection = 'claim-reward'">
+                Claim Reward
+              </div>
+              <div class="nav-subitem" @click="activeSection = 'approval-poin'">
+                Approval Poin
+              </div>
+              <div class="nav-subitem" @click="activeSection = 'setting-rewards'">
+                Setting Rewards
+              </div>
             </div>
           </div>
         </nav>
@@ -153,6 +162,15 @@
 
         <!-- Admin Rewards Page -->
         <AdminRewardsPage v-else-if="activeSection === 'kelola-rewards'" />
+
+        <!-- Claim Reward Page -->
+        <AdminClaimRewardPage v-else-if="activeSection === 'claim-reward'" />
+
+        <!-- Approval Poin Page -->
+        <AdminApprovalPoinPage v-else-if="activeSection === 'approval-poin'" />
+
+        <!-- Setting Rewards Page -->
+        <AdminSettingRewardsPage v-else-if="activeSection === 'setting-rewards'" />
 
         <!-- Summary Card -->
         <div v-else-if="activeSection === 'ringkasan'" class="summary-card">
@@ -310,6 +328,9 @@ import EventsPage from './EventsPage.vue'
 import CertificatesPage from './CertificatesPage.vue'
 import AdminValidationPage from './AdminValidationPage.vue'
 import AdminRewardsPage from './AdminRewardsPage.vue'
+import AdminClaimRewardPage from './AdminClaimRewardPage.vue'
+import AdminApprovalPoinPage from './AdminApprovalPoinPage.vue'
+import AdminSettingRewardsPage from './AdminSettingRewardsPage.vue'
 
 const activeSection = ref('ringkasan')
 const currentPage = ref(1)
