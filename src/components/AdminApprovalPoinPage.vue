@@ -3,8 +3,8 @@
     <div class="page-header">
       <div class="header-icon">⭐</div>
       <div>
-        <h1 class="page-title">Approval Poin</h1>
-        <p class="page-subtitle">Validasi dan approval poin relawan dari aktivitas volunteer</p>
+        <h1 class="page-title">Validasi Campaign & Approval Poin</h1>
+        <p class="page-subtitle">Satu halaman untuk mengelola pengajuan campaign dan poin relawan secara terpadu.</p>
       </div>
     </div>
 
@@ -35,7 +35,7 @@
 
       <div class="table-container">
         <div class="table-header">
-          <h2 class="table-title">Daftar Approval Poin</h2>
+          <h2 class="table-title">Daftar Pengajuan Poin</h2>
           <div class="table-actions">
             <div class="search-box">
               <span class="search-icon">🔍</span>
@@ -43,9 +43,9 @@
             </div>
             <select v-model="statusFilter" class="filter-select">
               <option value="all">Semua Status</option>
-              <option value="pending">Pending</option>
-              <option value="approved">Approved</option>
-              <option value="rejected">Rejected</option>
+              <option value="pending">Menunggu</option>
+              <option value="approved">Disetujui</option>
+              <option value="rejected">Ditolak</option>
             </select>
           </div>
         </div>
@@ -142,10 +142,6 @@
                 <div class="detail-row">
                   <span class="label">Waktu Aktivitas:</span>
                   <span class="value">{{ selectedApproval.activityDate }}</span>
-                </div>
-                <div class="detail-row">
-                  <span class="label">Bukti/Catatan:</span>
-                  <span class="value">{{ selectedApproval.evidence }}</span>
                 </div>
               </div>
               <div class="detail-section">
@@ -271,9 +267,9 @@ const filteredApprovals = computed(() => {
 
 const getStatusLabel = (status) => {
   const labels = {
-    pending: 'Pending Review',
-    approved: 'Approved',
-    rejected: 'Rejected'
+    pending: 'Menunggu',
+    approved: 'Disetujui',
+    rejected: 'Ditolak'
   }
   return labels[status] || status
 }
@@ -334,28 +330,29 @@ const rejectApproval = (approval) => {
   align-items: center;
   gap: 16px;
   margin-bottom: 28px;
-  padding: 20px 24px;
-  background: rgba(255,255,255,0.8);
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.5);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  padding: 24px;
+  background: var(--gray-0);
+  border-radius: var(--border-radius-xl);
+  border: var(--border-light);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
 }
 
 .header-icon {
   font-size: 40px;
+  flex-shrink: 0;
 }
 
 .page-title {
-  font-size: 24px;
-  font-weight: 700;
-  color: #2d3748;
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--gray-900);
   margin: 0;
 }
 
 .page-subtitle {
-  font-size: 14px;
-  color: #718096;
+  font-size: var(--text-sm);
+  color: var(--gray-600);
   margin: 4px 0 0 0;
 }
 
@@ -372,63 +369,67 @@ const rejectApproval = (approval) => {
 }
 
 .stat-card {
-  background: white;
-  border-radius: 12px;
+  background: var(--gray-0);
+  border-radius: var(--border-radius-lg);
   padding: 20px;
   display: flex;
   align-items: center;
   gap: 16px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-  border: 1px solid #e2e8f0;
-  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
+  border: var(--border-light);
+  transition: all var(--transition-base);
 }
 
 .stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-200);
 }
 
 .stat-icon {
   width: 50px;
   height: 50px;
-  border-radius: 10px;
+  border-radius: var(--border-radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 24px;
+  flex-shrink: 0;
 }
 
 .stat-icon.pending {
-  background: linear-gradient(135deg, #fef3c7 0%, #fcd34d 100%);
+  background: linear-gradient(135deg, var(--warning-100) 0%, var(--warning-200) 100%);
 }
 
 .stat-icon.approved {
-  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+  background: linear-gradient(135deg, var(--success-100) 0%, var(--success-200) 100%);
 }
 
 .stat-icon.rejected {
-  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  background: linear-gradient(135deg, var(--error-100) 0%, var(--error-200) 100%);
 }
 
 .stat-label {
   display: block;
-  font-size: 12px;
-  color: #718096;
-  font-weight: 600;
+  font-size: var(--text-xs);
+  color: var(--gray-600);
+  font-weight: var(--font-semibold);
   margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .stat-value {
-  font-size: 28px;
-  font-weight: 700;
-  color: #2d3748;
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--gray-900);
 }
 
 .table-container {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-  border: 1px solid #e2e8f0;
+  background: var(--gray-0);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: var(--border-light);
   overflow: hidden;
 }
 
@@ -436,16 +437,16 @@ const rejectApproval = (approval) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 24px;
-  border-bottom: 1px solid #e2e8f0;
+  padding: 24px;
+  border-bottom: var(--border-light);
   flex-wrap: wrap;
   gap: 12px;
 }
 
 .table-title {
-  font-size: 18px;
-  font-weight: 700;
-  color: #2d3748;
+  font-size: var(--text-lg);
+  font-weight: var(--font-bold);
+  color: var(--gray-900);
   margin: 0;
 }
 
@@ -459,33 +460,59 @@ const rejectApproval = (approval) => {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #f7fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
+  background: var(--gray-50);
+  border: 2px solid var(--gray-200);
+  border-radius: var(--border-radius-lg);
   padding: 0 12px;
   min-width: 280px;
+  transition: all var(--transition-base);
+}
+
+.search-box:focus-within {
+  border-color: var(--primary-500);
+  background: var(--gray-0);
+  box-shadow: 0 0 0 3px var(--primary-50);
 }
 
 .search-icon {
   font-size: 16px;
+  color: var(--gray-400);
 }
 
 .search-box input {
   flex: 1;
   border: none;
   background: transparent;
-  padding: 8px 0;
-  font-size: 14px;
+  padding: 10px 0;
+  font-size: var(--text-sm);
   outline: none;
+  color: var(--gray-900);
+}
+
+.search-box input::placeholder {
+  color: var(--gray-400);
 }
 
 .filter-select {
-  padding: 8px 12px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  background: white;
+  padding: 10px 12px;
+  border: 2px solid var(--gray-200);
+  border-radius: var(--border-radius-lg);
+  background: var(--gray-0);
   cursor: pointer;
-  font-size: 14px;
+  font-size: var(--text-sm);
+  color: var(--gray-700);
+  font-weight: var(--font-medium);
+  transition: all var(--transition-base);
+}
+
+.filter-select:hover {
+  border-color: var(--gray-300);
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px var(--primary-50);
 }
 
 .table-responsive {
@@ -498,22 +525,33 @@ const rejectApproval = (approval) => {
 }
 
 .approvals-table thead {
-  background: #f7fafc;
-  border-bottom: 2px solid #e2e8f0;
+  background: var(--gray-50);
+  border-bottom: 2px solid var(--gray-200);
 }
 
 .approvals-table th {
-  padding: 12px 16px;
+  padding: 14px 16px;
   text-align: left;
-  font-weight: 600;
-  color: #4a5568;
-  font-size: 13px;
+  font-weight: var(--font-semibold);
+  color: var(--gray-700);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .approvals-table td {
-  padding: 12px 16px;
-  border-bottom: 1px solid #e2e8f0;
-  font-size: 14px;
+  padding: 14px 16px;
+  border-bottom: var(--border-light);
+  font-size: var(--text-sm);
+  color: var(--gray-700);
+}
+
+.approvals-table tbody tr {
+  transition: all var(--transition-base);
+}
+
+.approvals-table tbody tr:hover {
+  background: var(--gray-50);
 }
 
 .volunteer-info {
@@ -530,19 +568,20 @@ const rejectApproval = (approval) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
+  font-weight: var(--font-bold);
   font-size: 16px;
+  flex-shrink: 0;
 }
 
 .volunteer-name {
   display: block;
-  font-weight: 600;
-  color: #2d3748;
+  font-weight: var(--font-semibold);
+  color: var(--gray-900);
 }
 
 .volunteer-id {
   display: block;
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: #a0aec0;
 }
 
@@ -766,42 +805,49 @@ const rejectApproval = (approval) => {
   flex: 1;
   padding: 10px 16px;
   border: none;
-  border-radius: 8px;
-  font-weight: 600;
+  border-radius: var(--border-radius-lg);
+  font-weight: var(--font-semibold);
   cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 14px;
+  transition: all var(--transition-base);
+  font-size: var(--text-sm);
 }
 
 .btn-approve {
-  background: #d1fae5;
-  color: #065f46;
+  background: linear-gradient(135deg, var(--success-100) 0%, var(--success-50) 100%);
+  color: var(--success-700);
+  border: 2px solid var(--success-200);
 }
 
 .btn-approve:hover {
-  background: #a7f3d0;
+  background: linear-gradient(135deg, var(--success-200) 0%, var(--success-100) 100%);
+  border-color: var(--success-300);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-reject {
-  background: #fee2e2;
-  color: #7f1d1d;
+  background: linear-gradient(135deg, var(--error-100) 0%, var(--error-50) 100%);
+  color: var(--error-700);
+  border: 2px solid var(--error-200);
 }
 
 .btn-reject:hover {
-  background: #fecaca;
+  background: linear-gradient(135deg, var(--error-200) 0%, var(--error-100) 100%);
+  border-color: var(--error-300);
+  box-shadow: var(--shadow-sm);
 }
 
 .status-message {
   text-align: center;
   padding: 12px;
-  border-radius: 8px;
-  font-weight: 600;
+  border-radius: var(--border-radius-lg);
+  font-weight: var(--font-semibold);
   margin: 0;
 }
 
 .status-message.approved {
-  background: #d1fae5;
-  color: #065f46;
+  background: var(--success-50);
+  color: var(--success-700);
+  border: 1px solid var(--success-200);
 }
 
 .status-message.rejected {
